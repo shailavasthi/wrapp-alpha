@@ -32,9 +32,10 @@ class Project(db.Model):
 	title = db.Column(db.String)
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 	stage = db.Column(db.String)
-	sources = db.Column(db.Text)
-	freewrite = db.Column(db.Text)
-	question = db.Column(db.Text)
+	sources = db.Column(db.Text, default='')
+	freewrite = db.Column(db.Text, default='')
+	question = db.Column(db.Text, default='')
+	num_sections = db.Column(db.Integer, default=1)
 	sections = db.relationship('Section', backref='project', cascade='all,delete', lazy='dynamic')
 
 	def __repr__(self):

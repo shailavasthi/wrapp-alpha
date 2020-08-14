@@ -12,9 +12,11 @@ class DeleteForm(FlaskForm):
 	password = PasswordField('Enter Your Password', validators=[DataRequired()])
 	submit = SubmitField('Delete Project')
 
-class DraftForm(FlaskForm):
+class BrainstormForm(FlaskForm):
 	sources = TextAreaField('Sources')
 	freewrite = TextAreaField('Freewrite')
 	question = TextAreaField('Question')
+	submit = SubmitField('Save')
+
 
 

@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_required
-from .forms import NewProjectForm, DeleteForm
+from .forms import NewProjectForm, DeleteForm, BrainstormForm
 from werkzeug.security import check_password_hash 
 from app.models import User, Project, Section
 from app import db
@@ -20,7 +20,7 @@ def new_project():
 
 	if form.validate_on_submit():
 		if form.progress.data == True:
-			project = Project(title=form.title.data, user_id=current_user.id, stage=2)
+			project = Project(title=form.title.data, user_id=current_user.id, stage=4)
 		else:
 			project = Project(title=form.title.data, user_id=current_user.id, stage=1)
 		db.session.add(project)
@@ -30,23 +30,29 @@ def new_project():
 
 	return render_template('project/new_project.html', form=form)
 
-@project.route('/drafter/<proj_id>', methods=['GET', 'POST'])
+@project.route('/project_dashboard/<proj_id>', methods=['GET','POST'])
 @login_required
-def drafter(proj_id):
+def project_dashboard(proj_id):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
 			return redirect(url_for('project.dashboard'))
-	
-	return render_template('project/drafter.html', project=project, title='Drafter')
+	return render_template('project/project_dashboard.html', project=project, title='{}'.format(project.title))
 
-@project.route('/editor/<proj_id>', methods=['GET', 'POST'])
+@project.route('/brainstorm/<proj_id>', methods=['GET','POST'])
 @login_required
-def editor(proj_id):
+def brainstorm(proj_id):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
 			return redirect(url_for('project.dashboard'))
-	
-	return render_template('project/editor.html', project=project, title='Editor')
+	form = BrainstormForm()
+	if form.validate_on_submit():
+		project.sources = form.sources.data
+		project.freewrite = form.freewrite.data
+		project.question = form.question.data
+		db.session.commit()
+		flash('Brainstorm Saved', 'info')
+		return redirect(url_for('project.project_dashboard', proj_id=project.id))
+	return render_template('project/brainstorm.html', project=project, title='{}'.format(project.title), form=form)
 
 @project.route('/delete/type=<type>/id=<id>', methods=['GET', 'POST'])
 @login_required
@@ -56,21 +62,11 @@ def delete(type, id):
 		if current_user.id != project.user_id:
 			return redirect(url_for('project.dashboard'))
 		item = Project.query.get(int(id))
-	elif type == 'idea':
-		idea = Idea.query.get(int(id))
-		if current_user.id != idea.user_id:
+	elif type == 'section':
+		section = Section.query.get(int(id))
+		if current_user.id != section.user_id:
 			return redirect(url_for('project.dashboard'))
-		item = Project.query.get(int(id))
-	elif type == 'outline':
-		outline = Outline.query.get(int(id))
-		if current_user.id != outline.user_id:
-			return redirect(url_for('project.dashboard'))
-		item = Project.query.get(int(id))
-	elif type == 'draft':
-		draft = Draft.query.get(int(id))
-		if current_user.id != draft.user_id:
-			return redirect(url_for('project.dashboard'))
-		item = Project.query.get(int(id))
+		item = section
 	else:
 		return redirect(url_for('project.dashboard'))
 

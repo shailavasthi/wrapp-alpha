@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current='page'>{{ project.title }}</li>
+    </ol>
+  </nav>
+<div class='container mt-5'>
+    <div class='row'>
+        <div class='col-sm'></div>
+        <div class='col-sm-8'>
+            <h1 class='heading'>{{ project.title }}: Project Dashboard</h1>
+            <hr>
+            <ol>
+                <li><a href='{{ url_for("project.brainstorm", proj_id=project.id) }}'>Brainstorm</a></li>
+                <li><a href=''>Define Sections</a></li>
+                <li><a href=''>Outline</a></li>
+                <li><a href=''>First Draft</a></li>
+                <li><a href=''>Draft Editor</a></li>
+            </ol>
+    
+        </div>
+        <div class='col-sm'></div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{project.title}}</a></li>
+      <li class="breadcrumb-item active" aria-current='page'>Brainstorm</li>
+    </ol>
+  </nav>
+<div class='container mt-5'>
+    <div class='row'>
+        <div class='col-sm'></div>
+        <div class='col-sm-8'>
+            <h1 class='heading'>{{ project.title }}: Brainstorm</h1>
+            <hr>
+            <form action='' method='POST'>
+                {{ form.hidden_tag() }}
+                <div class="page page-1">
+					<h4>Sources</h4>
+					<p>If you are using outside sources for your project, add them here. Some things you might 
+						want to include:
+					</p>
+					<ul>
+						<li>Name of source and where to find it.</li>
+						<li>Any direct quotes that you want to use from the sources.</li>
+						<li>Any notes that you've taken on the sources that you want to reference in your writing.</li>
+					</ul>
+					
+					<div class='form-group'>
+						<textarea class="form-control" name="sources" rows=20>{{ project.sources }}</textarea><br>
+						<button type='button' class='btn btn-outline-primary next-button' id='pg-1-next'>Next</button>
+		       		</div>
+		       		
+				</div>
+				<div class="page page-2 form-group">
+					<h4>Free Write</h4>
+					<p>Write freely about your topic for 10 minutes. Try and write continuously. Don't 
+					pay attention to grammar and spelling, and don't worry about editing what you wrote.
+					Just try and get all of your ideas about your topic down on paper. If you use informaition
+					from sources or find that you need to include more sources, indicate that in your writing </p>
+					
+					<div class='form-group'>
+						<textarea class="form-control" name="freewrite" rows=20>{{ project.freewrite }}</textarea> <br>
+						<button type='button' class='btn btn-outline-primary prev-button' id='pg-2-prev'>Previous</button>
+		       			<button type='button' class='btn btn-outline-primary next-button' id='pg-2-next'>Next</button>
+		       		</div>
+		       		
+				</div>
+				<div class="page page-3 form-group">
+					<h4>Question</h4>
+					<p>Every piece of writing should answer a question. Now that you have gathered your 
+					ideas and thought them through, decide on a question that you want your project to 
+					answer. </p>
+					
+					<div class='form-group'>
+
+			            <textarea class="form-control" name="question" rows=5>{{ project.question }}</textarea><br>
+			            <button type='button' class='btn btn-outline-primary prev-button' id='pg-3-prev'>Previous</button>
+			            {{ form.submit(class='btn btn-outline-success')}}
+		       		</div>
+
+				</div>
+            </form>
+            
+        </div>
+        <div class='col-sm'></div>
+    </div>
+</div>
+<script type="text/javascript">
+	var current_page = 1
+	$( '.page' ).hide();
+	$( '.page-1' ).show();
+
+	$( '.next-button').click(function() {
+		current_page++
+		$( '.page' ).hide();
+		$( '.page-'+current_page ).show()
+	})
+
+	$( '.prev-button').click(function() {
+		current_page--
+		$( '.page' ).hide();
+		$( '.page-'+current_page ).show()
+	})
+	
+
+    $('form input').keydown(function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+</script>
+{% endblock %}
