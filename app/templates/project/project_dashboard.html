@@ -15,7 +15,7 @@
             <hr>
             <ol>
                 <li><a href='{{ url_for("project.brainstorm", proj_id=project.id) }}'>Brainstorm</a></li>
-                <li><a href=''>Define Sections</a></li>
+                <li><a href='{{ url_for("project.set_sections", proj_id=project.id) }}'>Define Sections</a></li>
                 <li><a href=''>Outline</a></li>
                 <li><a href=''>First Draft</a></li>
                 <li><a href=''>Draft Editor</a></li>

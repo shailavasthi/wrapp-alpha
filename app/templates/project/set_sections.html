@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
+      <li class="breadcrumb-item active" aria-current='page'>Set Sections</li>
+    </ol>
+  </nav>
+<div class='container mt-5'>
+    <div class='row'>
+        <div class='col-sm'></div>
+        <div class='col-sm-8'>
+            <h1 class='heading'>{{ project.title }}: Set Sections</h1>
+            <form action='' method='POST'>
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <p id='counter'>Number of Sections: {{project.num_sections}}</p>
+                    <input type="range" name="num_sections" class="form-control-range" id="formControlRange" min="1" max="10" value={{project.num_sections}}>
+                    {{ form.submit(class='btn btn-outline-success')}}
+                  </div>
+            </form>
+        </div>
+        <div class='col-sm'></div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+    $("input").change(function(){
+        $( '#counter' ).text('Number of Sections: ' + this.value)
+}); 
+</script>
+{% endblock %}

@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_required
-from .forms import NewProjectForm, DeleteForm, BrainstormForm
+from .forms import NewProjectForm, DeleteForm, BrainstormForm, SetSectionsForm
 from werkzeug.security import check_password_hash 
 from app.models import User, Project, Section
 from app import db
@@ -52,7 +52,22 @@ def brainstorm(proj_id):
 		db.session.commit()
 		flash('Brainstorm Saved', 'info')
 		return redirect(url_for('project.project_dashboard', proj_id=project.id))
-	return render_template('project/brainstorm.html', project=project, title='{}'.format(project.title), form=form)
+	return render_template('project/brainstorm.html', project=project, title=project.title, form=form)
+
+@project.route('/set_sections/<proj_id>', methods=['GET','POST'])
+@login_required
+def set_sections(proj_id):
+	project = Project.query.get(int(proj_id))
+	if current_user.id != project.user_id:
+			return redirect(url_for('project.dashboard'))
+	form = SetSectionsForm()
+	if form.validate_on_submit():
+		project.num_sections = form.num_sections.data
+		db.session.commit()
+		flash('Sections Saved', 'info')
+		return redirect(url_for('project.project_dashboard', proj_id=project.id))
+	return render_template('project/set_sections.html', project=project, title=project.title, form=form)
+
 
 @project.route('/delete/type=<type>/id=<id>', methods=['GET', 'POST'])
 @login_required
