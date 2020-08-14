@@ -1,0 +1,35 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<div class="jumbotron">
+	<div class='container'>
+		{% if current_user.is_authenticated %}
+		<h1 class='display-4'>Welcome to Wrapp, {{ current_user.first_name }}!</h1>
+		{% else %}
+		<h1 class='display-4'>Welcome to Wrapp</h1>
+		{% endif %}
+		<p class="lead">Lead description</p>
+		<hr class="my-4">
+
+		{% if current_user.is_authenticated %}
+		<p>Go to Your Dashboard</p>
+		<p class="lead">
+			<a class="btn btn-primary btn-lg" href="{{ url_for('project.dashboard') }}" role="button">Dashboard &raquo;</a>
+		</p>
+		{% else %}
+		<p>Sign In or Create an Account Below</p>
+		<p class="lead">
+			<a class="btn btn-primary btn-lg " href="{{ url_for('auth.login') }}" role="button">Sign In &raquo;</a>
+			<a class="btn btn-primary btn-lg ml-4" href="{{ url_for('auth.register') }}" role="button">Sign Up &raquo;</a>
+	 	</p>
+		{% endif %}
+
+	</div>
+</div>
+<div class='container'>
+	<h1>About Wrapp</h1>
+	<p class='lead'>product description</p>
+</div>
+
+
+{% endblock %}
