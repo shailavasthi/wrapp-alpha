@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
+      <li class="breadcrumb-item active" aria-current='page'>Outline</li>
+    </ol>
+</nav>
+<div class='container mt-5'>
+    <div class='row'>
+        <div class='col-sm'>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                View Work
+            </button>
+        </div>
+        <div class='col-sm-8'>
+            <h1 class='heading'>{{ project.title }}: Outline</h1>
+            <hr>
+            <h4>Directions</h4>
+            <p>For each outline section, ...</p>
+            <form action='' method='POST'>
+                {{ form.hidden_tag() }}
+                {% for key, value in record.items() %}
+                    <div class='form-group page page-{{key}}'>
+                        <p class='lead'>{{ value }}</p>
+                        <textarea name="{{ key }}" class="form-control" rows='15'>{{ sections.filter_by(order=key).first().text }}</textarea>
+                    </div>
+                {% endfor %}
+                <button type='button' class='btn btn-outline-primary prev-button' id='pg-1-prev'>Previous</button>
+                <button type='button' class='btn btn-outline-primary next-button' id='pg-1-next'>Next</button>
+                {{form.submit(class='btn btn-outline-primary')}}
+            </form> 
+        </div>
+        <div class='col-sm'></div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Your Work</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>Sources</h6>
+                {{ project.sources }}
+                <hr>
+                <h6>Freewrite</h6>
+                {{ project.freewrite }}
+                <hr>
+                <h6>Question</h6>
+                {{ project.question }}
+                <hr>
+                <h6>Thesis</h6>
+                {{ project.thesis }}
+                <hr>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	var current_page = 1
+	$( '.page' ).hide();
+	$( '.page-1' ).show();
+
+	$( '.next-button').click(function() {
+		current_page++
+		$( '.page' ).hide();
+		$( '.page-'+current_page ).show()
+	})
+
+	$( '.prev-button').click(function() {
+		current_page--
+		$( '.page' ).hide();
+		$( '.page-'+current_page ).show()
+	})
+
+    $('form input').keydown(function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+</script>
+{% endblock %}

@@ -35,7 +35,8 @@ class Project(db.Model):
 	sources = db.Column(db.Text, default='')
 	freewrite = db.Column(db.Text, default='')
 	question = db.Column(db.Text, default='')
-	num_sections = db.Column(db.Integer, default=1)
+	thesis = db.Column(db.Text, default='')
+	num_sections = db.Column(db.Integer, default=0)
 	sections = db.relationship('Section', backref='project', cascade='all,delete', lazy='dynamic')
 
 	def __repr__(self):
@@ -44,8 +45,9 @@ class Project(db.Model):
 class Section(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
+	label = db.Column(db.String)
 	version = db.Column(db.Integer)
 	parent_type = db.Column(db.String)
 	order = db.Column(db.Integer)
-	heading = db.Column(db.String)
-	text = db.Column(db.Text)
+	heading = db.Column(db.Text, default='')
+	text = db.Column(db.Text, default='')
