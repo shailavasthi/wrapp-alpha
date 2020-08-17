@@ -28,7 +28,7 @@
 					</ul>
 					
 					<div class='form-group'>
-						<textarea class="form-control" name="sources" rows=20>{{ project.sources }}</textarea><br>
+						<textarea class="form-control editor" name="sources" rows=20>{{ project.sources }}</textarea><br>
 						<button type='button' class='btn btn-outline-primary next-button' id='pg-1-next'>Next</button>
 		       		</div>
 		       		
@@ -41,7 +41,7 @@
 					from sources or find that you need to include more sources, indicate that in your writing </p>
 					
 					<div class='form-group'>
-						<textarea class="form-control" name="freewrite" rows=20>{{ project.freewrite }}</textarea> <br>
+						<textarea class="form-control editor" name="freewrite" rows=20>{{ project.freewrite }}</textarea> <br>
 						<button type='button' class='btn btn-outline-primary prev-button' id='pg-2-prev'>Previous</button>
 		       			<button type='button' class='btn btn-outline-primary next-button' id='pg-2-next'>Next</button>
 		       		</div>
@@ -55,7 +55,7 @@
 					
 					<div class='form-group'>
 
-			            <textarea class="form-control" name="question" rows=5>{{ project.question }}</textarea><br>
+			            <textarea class="form-control editor" name="question" rows=5>{{ project.question }}</textarea><br>
 			            <button type='button' class='btn btn-outline-primary prev-button' id='pg-3-prev'>Previous</button>
 			            {{ form.submit(class='btn btn-outline-primary')}}
 		       		</div>

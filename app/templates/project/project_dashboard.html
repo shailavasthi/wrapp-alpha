@@ -13,13 +13,13 @@
         <div class='col-sm-8'>
             <h1 class='heading'>{{ project.title }}: Project Dashboard</h1>
             <hr>
-            <ol>
-                <li><a href='{{ url_for("project.brainstorm", proj_id=project.id) }}'>Brainstorm</a></li>
-                <li><a href='{{ url_for("project.set_sections", proj_id=project.id) }}'>Set Thesis and Sections</a></li>
-                <li><a href='{{ url_for("project.outline_editor", proj_id=project.id) }}'>Outline</a></li>
-                <li><a href=''>First Draft</a></li>
-                <li><a href=''>Draft Editor</a></li>
-            </ol>
+            <ul class="list-group">
+                <li class="list-group-item"><a href='{{ url_for("project.brainstorm", proj_id=project.id) }}'>Brainstorm</a></li>
+                <li class="list-group-item"><a href='{{ url_for("project.set_sections", proj_id=project.id) }}'>Set Thesis and Sections</a></li>
+                <li class="list-group-item"><a href='{{ url_for("project.outline_editor", proj_id=project.id) }}'>Outline</a></li>
+                <li class="list-group-item"><a href=''>First Draft</a></li>
+                <li class="list-group-item"><a href=''>Draft Editor</a></li>
+              </ul>
             
     
         </div>

@@ -126,8 +126,6 @@ def outline_editor(proj_id):
 	while i <= num_sections:
 		record.update({'{}'.format(str(i)):'Section {}'.format(str(i))})
 		i += 1
-
-
 	
 	for key, value in record.items():
 		setattr(F, key, TextAreaField(value))
@@ -141,7 +139,7 @@ def outline_editor(proj_id):
 			section.text = data
 
 		db.session.commit()
-
+		flash('Outline Saved', 'info')
 		return redirect(url_for('project.project_dashboard', proj_id=project.id))
 
 	return render_template(

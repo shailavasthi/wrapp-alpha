@@ -11,6 +11,23 @@
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://cdn.tiny.cloud/1/kqj0f5ldh0xkkvbo1c1ocjceqntxmeus40lm6oigllpxjtky/tinymce/5/tinymce.min.js" referrerpolicy="origin"/></script>
+
+  <script>
+    tinymce.init({
+      selector: 'textarea.editor',
+      menubar: false,
+      height: 500,
+      plugins: [
+      'advlist autolink link image lists charmap print preview hr anchor pagebreak',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'table emoticons template paste help charmap'
+    ],
+      toolbar: 'fullscreen | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+      'bullist numlist outdent indent | link charmap| print preview fullpage | ' +
+      'forecolor backcolor | help',
+    });
+  </script>
     
 	<title>{% block title %} {{ title }} {% endblock %}</title>
 </head>

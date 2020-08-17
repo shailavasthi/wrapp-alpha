@@ -9,33 +9,44 @@
     </ol>
 </nav>
 <div class='container mt-5'>
+    <h1 class='heading text-center'>{{ project.title }}: Outline</h1>
+            <hr>
     <div class='row'>
         <div class='col-sm'>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                View Work
-            </button>
+            
+            
+  
+            <h6>Section Navigator</h6>
+            <ul>
+                {% for key, value in record.items() %}
+                    <li><a href='' id="{{key}}" onclick="return false;" class='section-nav'>{{ value }}</a></li>
+                {% endfor %}
+            </ul>
+
+            <button class='btn btn-light' data-toggle="modal" data-target="#exampleModal">Show Work</button>
+                
         </div>
         <div class='col-sm-8'>
-            <h1 class='heading'>{{ project.title }}: Outline</h1>
-            <hr>
+            
             <h4>Directions</h4>
             <p>For each outline section, ...</p>
+            
             <form action='' method='POST'>
                 {{ form.hidden_tag() }}
                 {% for key, value in record.items() %}
                     <div class='form-group page page-{{key}}'>
                         <p class='lead'>{{ value }}</p>
-                        <textarea name="{{ key }}" class="form-control" rows='15'>{{ sections.filter_by(order=key).first().text }}</textarea>
+                        <textarea name="{{ key }}" class="editor">{{ sections.filter_by(order=key).first().text }}</textarea>
                     </div>
                 {% endfor %}
-                <button type='button' class='btn btn-outline-primary prev-button' id='pg-1-prev'>Previous</button>
-                <button type='button' class='btn btn-outline-primary next-button' id='pg-1-next'>Next</button>
-                {{form.submit(class='btn btn-outline-primary')}}
+            
+                {{form.submit(class='btn btn-primary')}}
             </form> 
         </div>
         <div class='col-sm'></div>
     </div>
 </div>
+<div style='height:50px'></div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
@@ -71,24 +82,18 @@
 	$( '.page' ).hide();
 	$( '.page-1' ).show();
 
-	$( '.next-button').click(function() {
-		current_page++
-		$( '.page' ).hide();
-		$( '.page-'+current_page ).show()
-	})
-
-	$( '.prev-button').click(function() {
-		current_page--
-		$( '.page' ).hide();
-		$( '.page-'+current_page ).show()
-	})
-
     $('form input').keydown(function (e) {
         if (e.keyCode == 13) {
             e.preventDefault();
             return false;
         }
     });
+
+    $( '.section-nav ').click(function() {
+		new_section = $( this ).attr('id');
+		$( '.page' ).hide();
+		$( '.page-'+new_section ).show();
+	});
 
 </script>
 {% endblock %}

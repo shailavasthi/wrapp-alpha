@@ -19,7 +19,7 @@ class BrainstormForm(FlaskForm):
 	submit = SubmitField('Save')
 
 class EditSectionsForm(FlaskForm):
-	submit = SubmitField('Save')
+	submit = SubmitField('Save Outline')
 	pass
 
 class SetSectionsForm(FlaskForm):

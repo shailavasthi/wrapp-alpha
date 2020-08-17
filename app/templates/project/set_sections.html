@@ -9,16 +9,17 @@
     </ol>
 </nav>
 <div class='container mt-5'>
+    <h1 class='heading text-center'>{{ project.title }}: Thesis and Sections</h1>
+            
+            <hr>
     <div class='row'>
         <div class='col-sm'>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal">
                 View Brainstorm
             </button>
         </div>
         <div class='col-sm-8'>
-            <h1 class='heading'>{{ project.title }}: Thesis and Sections</h1>
             
-            <hr>
             <form action='' method='POST'>
                 {{ form.hidden_tag() }}
                 <div class="form-group">
