@@ -1,12 +1,13 @@
 from flask import render_template, redirect, url_for, flash, request
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
+from werkzeug.security import check_password_hash
 
 from app.models import User
 from app import db
 
 from . import auth
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, EditInfoForm
 
 @auth.route('/login', methods=['GET','POST'])
 def login():
@@ -50,6 +51,38 @@ def register():
 		user.set_password(form.password.data)
 		db.session.add(user)
 		db.session.commit()
-		flash('You are now a registered user', 'success')
+		flash('You are now a registered user.', 'success')
 		return redirect(url_for('auth.login'))
 	return render_template('auth/register.html', title='Register', form=form)
+
+
+@auth.route('/account')
+@login_required
+def account():
+	return render_template('auth/account.html', title='Account', user=current_user)
+
+@auth.route('/edit_info', methods=['GET', 'POST'])
+@login_required
+def edit_info():
+	form = EditInfoForm()
+	if form.validate_on_submit():
+		user = current_user
+		user.first_name = form.first_name.data
+			
+		user.last_name = form.last_name.data
+			
+		
+		user.set_password(form.password.data)
+
+		db.session.commit()
+		flash('Your information was saved.', 'success')
+		return redirect(url_for('auth.login'))
+
+	return render_template('auth/edit_info.html', title='Edit Info', user=current_user, form=form)
+
+@auth.route('/delete_account')
+@login_required
+def delete_account():
+
+	return render_template('auth/delete_account.html', title='Delete Account', user=current_user)
+

@@ -14,7 +14,7 @@
           <hr>
           <ul>
               {% for project in projects %}
-              <a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}" class='list-group-item list-group-item-action'>Open Project</a>     
+              <a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}" class='list-group-item list-group-item-action'>{{ project.title }}</a>     
               {% endfor %}
               <a href="{{ url_for('project.new_project') }}" class='list-group-item list-group-item-action'>Create a New Project</a>
           </ul>

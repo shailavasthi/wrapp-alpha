@@ -50,9 +50,15 @@
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('project.dashboard') }}">Dashboard</a>
             </li>
+            {% if current_user.is_authenticated %}
+            <li>
+              <a class="nav-link" href="{{ url_for('auth.account') }}">Account</a>
+            </li>
+            {% endif %}
             <li>
               <a class="ml-auto mr-2 nav-link" href="{{ url_for(action) }}">{{ action_label }}</a>
             </li>
+            
           </ul>
           
         </div>

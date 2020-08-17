@@ -16,7 +16,7 @@
             <hr>
             <form action='' method='POST'>
                 {{ form.hidden_tag() }}
-                <div class="page page-1">
+                <div class="">
 					<h4>Sources</h4>
 					<p>If you are using outside sources for your project, add them here. Some things you might 
 						want to include:
@@ -29,11 +29,10 @@
 					
 					<div class='form-group'>
 						<textarea class="form-control editor" name="sources" rows=20>{{ project.sources }}</textarea><br>
-						<button type='button' class='btn btn-outline-primary next-button' id='pg-1-next'>Next</button>
 		       		</div>
 		       		
 				</div>
-				<div class="page page-2 form-group">
+				<div class="">
 					<h4>Free Write</h4>
 					<p>Write freely about your topic for 10 minutes. Try and write continuously. Don't 
 					pay attention to grammar and spelling, and don't worry about editing what you wrote.
@@ -42,12 +41,10 @@
 					
 					<div class='form-group'>
 						<textarea class="form-control editor" name="freewrite" rows=20>{{ project.freewrite }}</textarea> <br>
-						<button type='button' class='btn btn-outline-primary prev-button' id='pg-2-prev'>Previous</button>
-		       			<button type='button' class='btn btn-outline-primary next-button' id='pg-2-next'>Next</button>
 		       		</div>
 		       		
 				</div>
-				<div class="page page-3 form-group">
+				<div class="">
 					<h4>Question</h4>
 					<p>Every piece of writing should answer a question. Now that you have gathered your 
 					ideas and thought them through, decide on a question that you want your project to 
@@ -55,8 +52,7 @@
 					
 					<div class='form-group'>
 
-			            <textarea class="form-control editor" name="question" rows=5>{{ project.question }}</textarea><br>
-			            <button type='button' class='btn btn-outline-primary prev-button' id='pg-3-prev'>Previous</button>
+			            <textarea class="form-control" name="question" rows=5>{{ project.question }}</textarea><br>
 			            {{ form.submit(class='btn btn-outline-primary')}}
 		       		</div>
 
