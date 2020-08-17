@@ -12,32 +12,18 @@ class DeleteForm(FlaskForm):
 	password = PasswordField('Enter Your Password', validators=[DataRequired()])
 	submit = SubmitField('Delete Project')
 
-class BrainstormForm(FlaskForm):
+class OutlineForm(FlaskForm):
 	sources = TextAreaField('Sources')
 	freewrite = TextAreaField('Freewrite')
 	question = TextAreaField('Question')
 	thesis = TextAreaField('Thesis')
+	outline = TextAreaField('Outline')
 	num_sections = IntegerField('Number of Sections')
-	submit = SubmitField('Save')
+	submit = SubmitField('Save Outline')
 
 class EditSectionsForm(FlaskForm):
-	submit = SubmitField('Save Outline')
+	submit = SubmitField('Save Draft')
 	pass
-
-class SetSectionsForm(FlaskForm):
-	thesis = TextAreaField('Thesis')
-	num_sections = IntegerField('Number of Sections')
-	submit = SubmitField('Save')
-
-class SectionForm(Form):
-	heading = StringField("Heading")
-	body = TextAreaField("Body")
-
-class OutlineForm(FlaskForm):
-	sections = FieldList(
-		FormField(SectionForm),
-		min_entries=1
-	)
 
 
 

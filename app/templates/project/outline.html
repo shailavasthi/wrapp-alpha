@@ -5,11 +5,11 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
       <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{project.title}}</a></li>
-      <li class="breadcrumb-item active" aria-current='page'>Brainstorm</li>
+      <li class="breadcrumb-item active" aria-current='page'>Outline</li>
     </ol>
   </nav>
 <div class='container mt-5'>
-	<h1 class='text-center'>{{ project.title }}: Brainstorm</h1>
+	<h1 class='text-center'>{{ project.title }}: Outline</h1>
     <hr>
     <div class='row'>
         <div class='col-sm'>
@@ -89,7 +89,7 @@
 						to plan out your sections (note: this will not be saved). Then, select how many sections you
 						will need below.
                     </p>
-                    <textarea class='form-control'></textarea><br>
+                    <textarea name="outline" class='form-control editor'>{{project.outline}}</textarea><br>
 					<label for="select-sections">New Number of Sections (Currently {{project.num_sections}})</label>
 					<select name="num_sections" id="select-sections" class="form-control">
 						{% for n in range(1, max_sections+1) %}
@@ -100,7 +100,7 @@
 						Note: if you decrease the amount of sections from the current number, 
                         all of the excess sections will be deleted and your work will be lost.
                     </p>
-                    {{ form.submit(class='btn btn-outline-primary')}}
+                    {{ form.submit(class='btn btn-primary')}}
                   </div>
             </form>
             
@@ -114,5 +114,7 @@
     $("input").change(function(){
         $( '#counter' ).text('New Number of Sections: ' + this.value)
 }); 
+	
+	$('#select-sections').val({{project.num_sections}});
 </script>
 {% endblock %}

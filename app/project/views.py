@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_required
-from .forms import NewProjectForm, DeleteForm, BrainstormForm, SetSectionsForm, EditSectionsForm
+from .forms import NewProjectForm, DeleteForm, OutlineForm, EditSectionsForm
 from werkzeug.security import check_password_hash 
 from app.models import User, Project, Section
 from wtforms import TextAreaField, StringField
@@ -39,22 +39,22 @@ def project_dashboard(proj_id):
 			return redirect(url_for('project.dashboard'))
 	return render_template('project/project_dashboard.html', project=project, title='{}'.format(project.title))
 
-@project.route('/brainstorm/<proj_id>', methods=['GET','POST'])
+@project.route('/outline/<proj_id>', methods=['GET','POST'])
 @login_required
-def brainstorm(proj_id):
+def outline(proj_id):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
 			return redirect(url_for('project.dashboard'))
-	form = BrainstormForm()
+	form = OutlineForm()
 	if form.validate_on_submit():
 		project.sources = form.sources.data
 		project.freewrite = form.freewrite.data
 		project.question = form.question.data
-		sections = Section.query.filter_by(project_id=project.id).filter_by(parent_type='outline').order_by(Section.order)
+		sections = Section.query.filter_by(project_id=project.id).filter_by(version=1).order_by(Section.order)
 
 		if form.num_sections.data < project.num_sections:
 			difference = project.num_sections - form.num_sections.data
-			rev_sections = Section.query.filter_by(project_id=project.id).filter_by(parent_type='outline').order_by(Section.order.desc())
+			rev_sections = Section.query.filter_by(project_id=project.id).filter_by(version=1).order_by(Section.order.desc())
 			i = 0
 			while i < difference:
 				to_delete = rev_sections.first()
@@ -68,7 +68,8 @@ def brainstorm(proj_id):
 			while diff_counter > 0:
 				section = Section(
 					project_id=project.id,
-					parent_type="outline",
+					parent_type="draft",
+					version=1,
 					order=sections.count()+1,
 				)
 				db.session.add(section)
@@ -79,29 +80,28 @@ def brainstorm(proj_id):
 
 		project.num_sections = form.num_sections.data
 		project.thesis = form.thesis.data
+		project.outline = form.outline.data
 		db.session.commit()
-		flash('Brainstorm Saved', 'info')
+		flash('Outline Saved', 'info')
 		return redirect(url_for('project.project_dashboard', proj_id=project.id))
-	return render_template('project/brainstorm.html', 
+	return render_template('project/outline.html', 
 							project=project, 
-							title='Brainstorm: {}'.format(project.title), 
+							title='Outline: {}'.format(project.title), 
 							form=form,
 							max_sections=15)
 
-@project.route('/outline_editor/<proj_id>', methods=['GET', 'POST'])
+@project.route('/first_draft/<proj_id>', methods=['GET', 'POST'])
 @login_required
-def outline_editor(proj_id):
+def first_draft(proj_id):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
 			return redirect(url_for('project.dashboard'))
 
-	sections = Section.query.filter_by(project_id=project.id).filter_by(parent_type='outline').order_by(Section.order)
-
+	sections = Section.query.filter_by(project_id=project.id).filter_by(version=1).order_by(Section.order)
 	class F(EditSectionsForm):
 		pass
 
 	num_sections = project.num_sections
-
 	record = {}
 
 	i = 1
@@ -121,15 +121,15 @@ def outline_editor(proj_id):
 			section.text = data
 
 		db.session.commit()
-		flash('Outline Saved', 'info')
+		flash('First Draft Saved', 'info')
 		return redirect(url_for('project.project_dashboard', proj_id=project.id))
 
 	return render_template(
-		'project/outline_editor.html', 
+		'project/first_draft.html', 
 		project=project, sections=sections, 
 		form=form, 
 		record=record,
-		title='Outline: {}'.format(project.title)
+		title='First Draft: {}'.format(project.title)
 	)
 
 @project.route('/delete/type=<type>/id=<id>', methods=['GET', 'POST'])

@@ -5,26 +5,20 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
       <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
-      <li class="breadcrumb-item active" aria-current='page'>Outline</li>
+      <li class="breadcrumb-item active" aria-current='page'>First Draft</li>
     </ol>
 </nav>
 <div class='container mt-5'>
-    <h1 class='heading text-center'>{{ project.title }}: Outline</h1>
+    <h1 class='heading text-center'>{{ project.title }}: First Draft</h1>
             <hr>
     <div class='row'>
         <div class='col-sm'>
-            
-            
-  
             <h6>Section Navigator</h6>
             <div id="0" class='section-nav section-nav-0'>Directions</div>
             {% for key, value in record.items() %}
                 <div id="{{key}}" class='section-nav section-nav-{{key}}'>{{ value }}</div>
             {% endfor %}<br>
-        
-
-            <button class='btn btn-light' data-toggle="modal" data-target="#exampleModal">Show Work</button>
-                
+            <button class='btn btn-light' data-toggle="modal" data-target="#exampleModal">Show Work</button>               
         </div>
         <div class='col-sm-8'>
             <div class="page page-0">
@@ -50,7 +44,6 @@
                         <textarea name="{{ key }}" class="editor">{{ sections.filter_by(order=key).first().text }}</textarea>
                     </div>
                 {% endfor %}
-            
                 {{form.submit(class='btn btn-primary')}}
             </form> 
         </div>
@@ -80,6 +73,9 @@
                 <hr>
                 <h6>Thesis</h6>
                 {{ project.thesis|safe }}
+                <hr>
+                <h6>Outline</h6>
+                {{ project.outline|safe }}
                 <hr>
             </div>
             <div class="modal-footer">

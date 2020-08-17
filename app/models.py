@@ -37,6 +37,7 @@ class Project(db.Model):
 	question = db.Column(db.Text, default='')
 	thesis = db.Column(db.Text, default='')
 	num_sections = db.Column(db.Integer, default=0)
+	outline = db.Column(db.Text, default='')
 	sections = db.relationship('Section', backref='project', cascade='all,delete', lazy='dynamic')
 
 	def __repr__(self):

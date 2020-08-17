@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block content %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -9,8 +8,7 @@
   </nav>
 <div class='container mt-5'>
     <div class='row'>
-        <div class='col-sm'>
-            
+        <div class='col-sm'> 
         </div>
         <div class='col-sm-8'>
             <h1 class='heading'>{{ project.title }}: Project Dashboard</h1>
@@ -26,13 +24,10 @@
             </div>
             <hr>
             <ul class="list-group">
-                <a class="list-group-item list-group-item-action" href="{{ url_for("project.brainstorm", proj_id=project.id) }}">Brainstorm</a>
-                <a class="list-group-item list-group-item-action" href="{{ url_for("project.outline_editor", proj_id=project.id) }}">Outline</a>
-                <a class="list-group-item list-group-item-action" href="">First Draft</a>
+                <a class="list-group-item list-group-item-action" href="{{ url_for("project.outline", proj_id=project.id) }}">Outline</a>
+                <a class="list-group-item list-group-item-action" href="{{ url_for("project.first_draft", proj_id=project.id) }}">First Draft</a>
                 <a class="list-group-item list-group-item-action" href="">Draft Editor</a>
             </ul>
-            
-    
         </div>
         <div class='col-sm'></div>
     </div>
