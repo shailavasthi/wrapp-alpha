@@ -53,5 +53,3 @@ def register():
 		flash('You are now a registered user', 'success')
 		return redirect(url_for('auth.login'))
 	return render_template('auth/register.html', title='Register', form=form)
-
-

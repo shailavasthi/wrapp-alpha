@@ -17,22 +17,23 @@
             
   
             <h6>Section Navigator</h6>
-            <ul>
-                {% for key, value in record.items() %}
-                    <li><a href='' id="{{key}}" onclick="return false;" class='section-nav'>{{ value }}</a></li>
-                {% endfor %}
-            </ul>
+            <div id="0" class='section-nav section-nav-0'>Directions</div>
+            {% for key, value in record.items() %}
+                <div id="{{key}}" class='section-nav section-nav-{{key}}'>{{ value }}</div>
+            {% endfor %}<br>
+        
 
             <button class='btn btn-light' data-toggle="modal" data-target="#exampleModal">Show Work</button>
                 
         </div>
         <div class='col-sm-8'>
-            
-            <h4>Directions</h4>
-            <p>For each outline section, ...</p>
-            
+            <div class="page page-0">
+                <h4>Directions</h4>
+            </div>
+          
             <form action='' method='POST'>
                 {{ form.hidden_tag() }}
+                
                 {% for key, value in record.items() %}
                     <div class='form-group page page-{{key}}'>
                         <p class='lead'>{{ value }}</p>
@@ -59,16 +60,16 @@
             </div>
             <div class="modal-body">
                 <h6>Sources</h6>
-                {{ project.sources }}
+                {{ project.sources|safe }}
                 <hr>
                 <h6>Freewrite</h6>
-                {{ project.freewrite }}
+                {{ project.freewrite|safe }}
                 <hr>
                 <h6>Question</h6>
-                {{ project.question }}
+                {{ project.question|safe }}
                 <hr>
                 <h6>Thesis</h6>
-                {{ project.thesis }}
+                {{ project.thesis|safe }}
                 <hr>
             </div>
             <div class="modal-footer">
@@ -78,9 +79,10 @@
     </div>
 </div>
 <script type="text/javascript">
-	var current_page = 1
+	//var current_page = 0
 	$( '.page' ).hide();
-	$( '.page-1' ).show();
+	$( '.page-0' ).show();
+    $( '.section-nav-0' ).css({"color":"#0275d8","text-decoration":"underline"})
 
     $('form input').keydown(function (e) {
         if (e.keyCode == 13) {
@@ -93,6 +95,9 @@
 		new_section = $( this ).attr('id');
 		$( '.page' ).hide();
 		$( '.page-'+new_section ).show();
+        $( '.section-nav' ).css({"color":"black","text-decoration":"none"})
+        $( '.section-nav-'+new_section ).css({"color":"#0275d8","text-decoration":"underline"})
+
 	});
 
 </script>

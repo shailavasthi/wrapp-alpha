@@ -26,7 +26,7 @@
                     <h4>Instructions</h4>
                     <p>
                         In the previous section, you said that the main question that you want to answer
-                        with your project is: <strong>{{project.question}}</strong>. Now, come up with an answer to this
+                        with your project is: <strong>{{project.question|safe}}</strong> Now, come up with an answer to this
                         question. You can think of the answer as your thesis. It is the main argument or point of your paper. 
                         Write it in the box below.
                     </p>
@@ -45,7 +45,7 @@
                     <p>Note: if you decrease the amount of sections from the current number, 
                         all of the excess sections will be deleted and your work will be lost.
                     </p>
-                    <input type="range" name="num_sections" class="form-control-range" id="formControlRange" min="1" max="10" value={{project.num_sections}}><br>
+                    <input type="range" name="num_sections" class="form-control-range" id="formControlRange" min="1" max="15" value={{project.num_sections}}><br>
                     {{ form.submit(class='btn btn-outline-primary')}}
                   </div>
             </form>
@@ -67,13 +67,13 @@
             </div>
             <div class="modal-body">
                 <h6>Sources</h6>
-                {{ project.sources }}
+                {{ project.sources|safe }}
                 <hr>
                 <h6>Freewrite</h6>
-                {{ project.freewrite }}
+                {{ project.freewrite|safe }}
                 <hr>
                 <h6>Question</h6>
-                {{ project.question }}
+                {{ project.question|safe }}
                 <hr>
             </div>
             <div class="modal-footer">

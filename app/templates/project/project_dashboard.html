@@ -12,14 +12,15 @@
         <div class='col-sm'></div>
         <div class='col-sm-8'>
             <h1 class='heading'>{{ project.title }}: Project Dashboard</h1>
+            <a class='btn btn-outline-danger' href="{{ url_for('project.delete', id=project.id, type='project') }}">Delete Project</a>
             <hr>
             <ul class="list-group">
-                <li class="list-group-item"><a href='{{ url_for("project.brainstorm", proj_id=project.id) }}'>Brainstorm</a></li>
-                <li class="list-group-item"><a href='{{ url_for("project.set_sections", proj_id=project.id) }}'>Set Thesis and Sections</a></li>
-                <li class="list-group-item"><a href='{{ url_for("project.outline_editor", proj_id=project.id) }}'>Outline</a></li>
-                <li class="list-group-item"><a href=''>First Draft</a></li>
-                <li class="list-group-item"><a href=''>Draft Editor</a></li>
-              </ul>
+                <a class="list-group-item list-group-item-action" href="{{ url_for("project.brainstorm", proj_id=project.id) }}">Brainstorm</a>
+                <a class="list-group-item list-group-item-action" href="{{ url_for("project.set_sections", proj_id=project.id) }}">Set Thesis and Sections</a>
+                <a class="list-group-item list-group-item-action" href="{{ url_for("project.outline_editor", proj_id=project.id) }}">Outline</a>
+                <a class="list-group-item list-group-item-action" href="">First Draft</a>
+                <a class="list-group-item list-group-item-action" href="">Draft Editor</a>
+            </ul>
             
     
         </div>
