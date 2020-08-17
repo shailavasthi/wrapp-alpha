@@ -9,15 +9,28 @@
     </ol>
   </nav>
 <div class='container mt-5'>
+	<h1 class='text-center'>{{ project.title }}: Brainstorm</h1>
+    <hr>
     <div class='row'>
-        <div class='col-sm'></div>
+        <div class='col-sm'>
+			<div style="position:fixed;">
+				<h4>Navigator</h4>
+				<div id="list-example" class="list-group">
+                <a class="list-group-item list-group-item-action" href="#sources">Sources</a>
+                <a class="list-group-item list-group-item-action" href="#freewrite">Freewrite</a>
+                <a class="list-group-item list-group-item-action" href="#question">Question</a>
+				<a class="list-group-item list-group-item-action" href="#thesis">Thesis</a>
+				<a class="list-group-item list-group-item-action" href="#sections">Sections</a>
+              </div>
+			</div>
+			
+		</div>
         <div class='col-sm-8'>
-            <h1 class='heading'>{{ project.title }}: Brainstorm</h1>
-            <hr>
+            
             <form action='' method='POST'>
                 {{ form.hidden_tag() }}
                 <div class="">
-					<h4>Sources</h4>
+					<h4 id='sources'>Sources</h4>
 					<p>If you are using outside sources for your project, add them here. Some things you might 
 						want to include:
 					</p>
@@ -33,7 +46,7 @@
 		       		
 				</div>
 				<div class="">
-					<h4>Free Write</h4>
+					<h4 id='freewrite'>Free Write</h4>
 					<p>Write freely about your topic for 10 minutes. Try and write continuously. Don't 
 					pay attention to grammar and spelling, and don't worry about editing what you wrote.
 					Just try and get all of your ideas about your topic down on paper. If you use informaition
@@ -45,7 +58,7 @@
 		       		
 				</div>
 				<div class="">
-					<h4>Question</h4>
+					<h4 id='question'>Question</h4>
 					<p>Every piece of writing should answer a question. Now that you have gathered your 
 					ideas and thought them through, decide on a question that you want your project to 
 					answer. </p>
@@ -53,40 +66,53 @@
 					<div class='form-group'>
 
 			            <textarea class="form-control" name="question" rows=5>{{ project.question }}</textarea><br>
-			            {{ form.submit(class='btn btn-outline-primary')}}
-		       		</div>
+			            
+					</div>
+					
 
 				</div>
+				<div class="form-group">
+                    <h4 id='thesis'>Thesis</h4>
+                    <p>
+                        In the previous section, you said that the main question that you want to answer
+                        with your project is: <strong>{{project.question|safe}}</strong> Now, come up with an answer to this
+                        question. You can think of the answer as your thesis. It is the main argument or point of your paper. 
+                        Write it in the box below.
+                    </p>
+					<textarea name='thesis' class='form-control'>{{ project.thesis }}</textarea><br>
+					<h4 id='sections'>Sections</h4>
+                    <p>
+                        Now, decide how many sections you will need to answer this question. 
+                        Sections may be single paragraphs or groups of paragraphs,
+                        but each section should prove a single point or explore a single idea. All of your sections
+                        put together should lead the reader to your overall answer. Optional: use the box below
+						to plan out your sections (note: this will not be saved). Then, select how many sections you
+						will need below.
+                    </p>
+                    <textarea class='form-control'></textarea><br>
+					<label for="select-sections">New Number of Sections (Currently {{project.num_sections}})</label>
+					<select name="num_sections" id="select-sections" class="form-control">
+						{% for n in range(1, max_sections+1) %}
+							<option value="{{n}}">{{n}}</option>
+						{% endfor %}
+					</select>
+					<p>
+						Note: if you decrease the amount of sections from the current number, 
+                        all of the excess sections will be deleted and your work will be lost.
+                    </p>
+                    {{ form.submit(class='btn btn-outline-primary')}}
+                  </div>
             </form>
             
         </div>
         <div class='col-sm'></div>
     </div>
 </div>
-<script type="text/javascript">
-	var current_page = 1
-	$( '.page' ).hide();
-	$( '.page-1' ).show();
+<div style='height:200px'></div>
 
-	$( '.next-button').click(function() {
-		current_page++
-		$( '.page' ).hide();
-		$( '.page-'+current_page ).show()
-	})
-
-	$( '.prev-button').click(function() {
-		current_page--
-		$( '.page' ).hide();
-		$( '.page-'+current_page ).show()
-	})
-	
-
-    $('form input').keydown(function (e) {
-        if (e.keyCode == 13) {
-            e.preventDefault();
-            return false;
-        }
-    });
-
+<script type='text/javascript'>
+    $("input").change(function(){
+        $( '#counter' ).text('New Number of Sections: ' + this.value)
+}); 
 </script>
 {% endblock %}

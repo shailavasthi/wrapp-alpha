@@ -16,6 +16,8 @@ class BrainstormForm(FlaskForm):
 	sources = TextAreaField('Sources')
 	freewrite = TextAreaField('Freewrite')
 	question = TextAreaField('Question')
+	thesis = TextAreaField('Thesis')
+	num_sections = IntegerField('Number of Sections')
 	submit = SubmitField('Save')
 
 class EditSectionsForm(FlaskForm):

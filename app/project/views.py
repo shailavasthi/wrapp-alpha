@@ -50,23 +50,6 @@ def brainstorm(proj_id):
 		project.sources = form.sources.data
 		project.freewrite = form.freewrite.data
 		project.question = form.question.data
-		db.session.commit()
-		flash('Brainstorm Saved', 'info')
-		return redirect(url_for('project.project_dashboard', proj_id=project.id))
-	return render_template('project/brainstorm.html', 
-							project=project, 
-							title='Brainstorm: {}'.format(project.title), 
-							form=form)
-
-@project.route('/set_sections/<proj_id>', methods=['GET','POST'])
-@login_required
-def set_sections(proj_id):
-	project = Project.query.get(int(proj_id))
-	if current_user.id != project.user_id:
-			return redirect(url_for('project.dashboard'))
-	form = SetSectionsForm()
-	if form.validate_on_submit():
-
 		sections = Section.query.filter_by(project_id=project.id).filter_by(parent_type='outline').order_by(Section.order)
 
 		if form.num_sections.data < project.num_sections:
@@ -97,14 +80,13 @@ def set_sections(proj_id):
 		project.num_sections = form.num_sections.data
 		project.thesis = form.thesis.data
 		db.session.commit()
-		flash('Sections Saved', 'info')
+		flash('Brainstorm Saved', 'info')
 		return redirect(url_for('project.project_dashboard', proj_id=project.id))
-
-	return render_template('project/set_sections.html',
-						 project=project, 
-						 title='Thesis/Sections: {}'.format(project.title), 
-						 form=form,
-						 )
+	return render_template('project/brainstorm.html', 
+							project=project, 
+							title='Brainstorm: {}'.format(project.title), 
+							form=form,
+							max_sections=15)
 
 @project.route('/outline_editor/<proj_id>', methods=['GET', 'POST'])
 @login_required
