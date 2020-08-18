@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
+<link rel='stylesheet' href="{{ url_for('project.static', filename='style.css') }}">
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
@@ -11,6 +13,7 @@
         <div class='col-sm'> 
         </div>
         <div class='col-sm-8'>
+          <div>
             <h1 class='heading'>{{ project.title }}: Project Dashboard</h1>
             <div class="dropdown">
                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -22,12 +25,34 @@
                   <a class="dropdown-item" href="#">View Stats</a>
                 </div>
             </div>
-            <hr>
-            <ul class="list-group">
-                <a class="list-group-item list-group-item-action" href="{{ url_for("project.outline", proj_id=project.id) }}">Outline</a>
-                <a class="list-group-item list-group-item-action" href="{{ url_for("project.first_draft", proj_id=project.id) }}">First Draft</a>
-                <a class="list-group-item list-group-item-action" href="">Draft Editor</a>
-            </ul>
+          </div>
+          <hr>
+          <div class="card card-border">
+            <div class="card-body">
+              <h5 class="card-title">Step 1: Outline</h5>
+              <p class="card-text">
+                Build an outline for your project from the ground up, and lay the foundation for 
+                your first draft.
+              </p>
+              <a href="{{ url_for("project.outline", proj_id=project.id) }}" class="btn btn-primary">Edit Outline &raquo</a>
+            </div>
+          </div>
+          <div class="card card-border">
+            <div class="card-body">
+              <h5 class="card-title">Step 2: First Draft</h5>
+              <p class="card-text">
+                Write your project's first draft, developing the ideas in your outline.
+              </p>
+              <a href="{{ url_for("project.first_draft", proj_id=project.id) }}" class="btn btn-primary">Edit First Draft &raquo</a>
+            </div>
+          </div>
+          <div class="card card-border">
+            <div class="card-body">
+              <h5 class="card-title">Step 3: Draft Editor</h5>
+              <p class="card-text">Revise your first draft and create </p>
+              <a href="{{ url_for('project.draft_dashboard', proj_id=project.id) }}" class="btn btn-primary">Edit Drafts &raquo</a>
+            </div>
+          </div>
         </div>
         <div class='col-sm'></div>
     </div>

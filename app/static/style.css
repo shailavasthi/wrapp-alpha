@@ -1,0 +1,33 @@
+
+#main-logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25%;
+    margin-top: 2em;
+  }
+
+#title {
+    text-align: center;
+    margin-top: 10px;
+    text-decoration: underline;
+    text-decoration-color: #007bff ;
+    text-underline-offset: 20px;
+}
+
+#subtitle {
+    text-align: center;
+    margin-top: 1em;
+    color: darkgray;
+    font-size: 30px;
+}
+
+
+
+.center {
+    text-align: center;
+}
+
+#right-button {
+    margin-left: 20px;
+}

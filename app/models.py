@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
 	first_name = db.Column(db.String)
 	last_name = db.Column(db.String)
 	password_hash = db.Column(db.String)
-	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+	timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
 	projects = db.relationship('Project', backref='author', cascade="all,delete", lazy='dynamic')
 
 	def set_password(self, password):
@@ -52,3 +52,6 @@ class Section(db.Model):
 	order = db.Column(db.Integer)
 	heading = db.Column(db.Text, default='')
 	text = db.Column(db.Text, default='')
+
+	def __repr__(self):
+		return '<Section {}>'.format(self.id)    

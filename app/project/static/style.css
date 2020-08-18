@@ -1,0 +1,31 @@
+.project-container {
+    border-style: solid;
+    border-color: darkgrey;
+    border-width: 1px;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.right {
+    text-align: right;
+}
+
+.project-title {
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+.button-container {
+    float: right;
+    margin-top: 1px;
+}
+
+.selected {
+    border-color: #007bff ;
+}
+
+.card-border {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 30px;
+}

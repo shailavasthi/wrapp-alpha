@@ -5,6 +5,7 @@ from werkzeug.security import check_password_hash
 from app.models import User, Project, Section
 from wtforms import TextAreaField, StringField
 from app import db
+from datetime import datetime
 
 from . import project
 
@@ -21,9 +22,9 @@ def new_project():
 
 	if form.validate_on_submit():
 		if form.progress.data == True:
-			project = Project(title=form.title.data, user_id=current_user.id, stage=4)
+			project = Project(title=form.title.data, user_id=current_user.id, stage=4, timestamp=datetime.now())
 		else:
-			project = Project(title=form.title.data, user_id=current_user.id, stage=1)
+			project = Project(title=form.title.data, user_id=current_user.id, stage=1, timestamp=datetime.now())
 		db.session.add(project)
 		db.session.commit()
 
@@ -162,3 +163,12 @@ def delete(type, id):
 
 	return render_template('project/delete.html', item=item, form=form, title='Delete')
 
+@project.route('/draft_dashboard/<proj_id>', methods=['GET', 'POST'])
+@login_required
+def draft_dashboard(proj_id):
+	project = Project.query.get(int(proj_id))
+	if current_user.id != project.user_id:
+			return redirect(url_for('project.dashboard'))
+
+			
+	return render_template('project/draft_dashboard.html', title='Drafts', project=project)
