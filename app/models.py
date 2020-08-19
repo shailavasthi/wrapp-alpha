@@ -31,6 +31,7 @@ class Project(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	title = db.Column(db.String)
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+	last_edit = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 	stage = db.Column(db.String)
 	sources = db.Column(db.Text, default='')
 	freewrite = db.Column(db.Text, default='')
@@ -39,6 +40,7 @@ class Project(db.Model):
 	num_sections = db.Column(db.Integer, default=0)
 	outline = db.Column(db.Text, default='')
 	sections = db.relationship('Section', backref='project', cascade='all,delete', lazy='dynamic')
+	drafts = db.Column(db.Integer, default=1)
 
 	def __repr__(self):
 		return '<Project {}>'.format(self.title)    

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+<link rel='stylesheet' href="{{ url_for('project.static', filename='style.css') }}">
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
+    <li class="breadcrumb-item active" aria-current='page'>Draft Editor</li>
+  </ol>
+</nav>
+<div class='container mt-5'>
+    <div class='row'>
+        <div class='col-sm'></div>
+        <div class='col-sm-8'>  
+          <h1 class='heading'>{{ project.title }}: Draft Editor</h1>
+          <hr>
+
+          <form action='' method='post'>
+            {{ form.hidden_tag() }}
+            {% for sentence in form.sentences %}
+                <div class='form-group'>
+                    {{ sentence(class='form-control') }}
+                </div>
+            {% endfor %}
+            <div class='form-group'>
+                {{ form.submit(class='btn btn-primary') }}
+            </div>
+          </form>
+        </div>
+        <div class='col-sm'></div>
+    </div>
+</div>  
+{% endblock %}

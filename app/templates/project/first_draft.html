@@ -62,21 +62,26 @@
                 </button>
             </div>
             <div class="modal-body">
-                <h6>Sources</h6>
-                {{ project.sources|safe }}
-                <hr>
-                <h6>Freewrite</h6>
-                {{ project.freewrite|safe }}
-                <hr>
-                <h6>Question</h6>
-                {{ project.question|safe }}
+                <h6>Outline</h6>
+                {{ project.outline|safe }}
+                {% if project.outline=='' %}<p>You haven't written anything here yet</p>{% endif %}
                 <hr>
                 <h6>Thesis</h6>
                 {{ project.thesis|safe }}
+                {% if project.outline=='' %}<p>You haven't written anything here yet</p>{% endif %}
                 <hr>
-                <h6>Outline</h6>
-                {{ project.outline|safe }}
+                <h6>Question</h6>
+                {{ project.question|safe }}
+                {% if project.outline=='' %}<p>You haven't written anything here yet</p>{% endif %}
                 <hr>
+                <h6>Freewrite</h6>
+                {{ project.freewrite|safe }}
+                {% if project.outline=='' %}<p>You haven't written anything here yet</p>{% endif %}
+                <hr>
+                <h6>Sources</h6>
+                {{ project.sources|safe }}
+                {% if project.outline=='' %}<p>You haven't written anything here yet</p>{% endif %}
+                <hr>    
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

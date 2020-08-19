@@ -3,4 +3,4 @@ from . import home
 
 @home.route('/')
 def home():
-	return render_template('home/inx.html', title='Home')
+	return render_template('home/index.html', title='Home')

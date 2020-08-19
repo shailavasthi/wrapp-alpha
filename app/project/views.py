@@ -1,11 +1,14 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_required
-from .forms import NewProjectForm, DeleteForm, OutlineForm, EditSectionsForm
+from .forms import NewProjectForm, DeleteForm, OutlineForm, EditSectionsForm, LineEditorForm
 from werkzeug.security import check_password_hash 
 from app.models import User, Project, Section
 from wtforms import TextAreaField, StringField
 from app import db
 from datetime import datetime
+# for nlp
+import spacy
+import re
 
 from . import project
 
@@ -30,7 +33,7 @@ def new_project():
 
 		return redirect(url_for('project.dashboard'))
 
-	return render_template('project/new_project.html', form=form)
+	return render_template('project/new_project.html', form=form, title='New Project')
 
 @project.route('/project_dashboard/<proj_id>', methods=['GET','POST'])
 @login_required
@@ -82,6 +85,7 @@ def outline(proj_id):
 		project.num_sections = form.num_sections.data
 		project.thesis = form.thesis.data
 		project.outline = form.outline.data
+		project.last_edit = datetime.utcnow()
 		db.session.commit()
 		flash('Outline Saved', 'info')
 		return redirect(url_for('project.project_dashboard', proj_id=project.id))
@@ -120,7 +124,7 @@ def first_draft(proj_id):
 			section = sections.filter_by(order=key).first()
 			data = getattr(form, key).data
 			section.text = data
-
+		project.last_edit = datetime.utcnow()
 		db.session.commit()
 		flash('First Draft Saved', 'info')
 		return redirect(url_for('project.project_dashboard', proj_id=project.id))
@@ -132,6 +136,45 @@ def first_draft(proj_id):
 		record=record,
 		title='First Draft: {}'.format(project.title)
 	)
+
+@project.route('/draft_editor/<proj_id>/<version>', methods=['GET', 'POST'])
+@login_required
+def draft_editor(proj_id, version):
+	project = Project.query.get(int(proj_id))
+	if current_user.id != project.user_id:
+			return redirect(url_for('project.dashboard'))
+	sections = Section.query.filter_by(project_id=project.id).filter_by(version=version).all()
+
+	nlp=spacy.load('en_core_web_sm')
+
+	return render_template('project/draft_editor.html', title='Draft Editor', project=project, sections=sections)
+
+@project.route('/line_editor/<proj_id>/<section_id>', methods=['GET', 'POST'])
+@login_required
+def line_editor(proj_id, section_id):
+	project = Project.query.get(int(proj_id))
+	if current_user.id != project.user_id:
+			return redirect(url_for('project.dashboard'))
+
+	#def cleanhtml(raw_html):
+		#cleanr = re.compile('<.*?>')
+		#cleantext = re.sub(cleanr, '', raw_html)
+		#return cleantext
+
+	section = Section.query.get(int(section_id))
+	#nlp = spacy.load('en_core_web_sm')
+	#doc = nlp(cleanhtml(section.text))
+	#sentences = [sent for sent in doc.sents]
+	print(section.order)
+	sentences = ['Hello there!']
+
+	form = LineEditorForm()
+	
+	if form.validate_on_submit():
+		return redirect(url_for('project.draft_editor', proj_id=project.id, version=1))
+
+	return render_template('project/line_editor.html', title='Line Editor', sentences=sentences, project=project, form=form)
+	
 
 @project.route('/delete/type=<type>/id=<id>', methods=['GET', 'POST'])
 @login_required
@@ -162,13 +205,3 @@ def delete(type, id):
 			flash('Password Incorrect', 'danger')
 
 	return render_template('project/delete.html', item=item, form=form, title='Delete')
-
-@project.route('/draft_dashboard/<proj_id>', methods=['GET', 'POST'])
-@login_required
-def draft_dashboard(proj_id):
-	project = Project.query.get(int(proj_id))
-	if current_user.id != project.user_id:
-			return redirect(url_for('project.dashboard'))
-
-			
-	return render_template('project/draft_dashboard.html', title='Drafts', project=project)
