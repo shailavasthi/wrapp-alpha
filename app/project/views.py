@@ -10,13 +10,10 @@ from datetime import datetime
 # for nlp
 import spacy
 import re
-
 from collections import Counter
 import numpy as np
 
-from .analyzer import create_figure, get_length_distribution
-
-
+from .analyzer import gen_hist, get_length_distribution, gen_bar
 from . import project
 
 @project.route('/dashboard')
@@ -253,9 +250,9 @@ def draft_viewer(proj_id):
 
 	return render_template('project/draft_viewer.html', project=project, sections=sections)
 	
-@project.route('/analyzer/<proj_id>')
+@project.route('/statistics/<proj_id>')
 @login_required
-def analyzer(proj_id):
+def statistics(proj_id):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
 		return redirect(url_for('project.dashboard'))
@@ -277,7 +274,7 @@ def analyzer(proj_id):
 	#sentences
 	sentences = [sent for sent in doc.sents]
 	#all words
-	words = [token.text for token in doc]
+	words = [token.text for token in doc if token.is_punct != True]
 	#minus stop words
 	stop_words = [token.text for token in doc if token.is_stop != True and token.is_punct != True]
 	#lemma
@@ -289,9 +286,11 @@ def analyzer(proj_id):
 	sent_dist = get_length_distribution(sentences)
 	word_dist = get_length_distribution(words)
 	keyword_dist = get_length_distribution(lemma)
+	print(common_words)
 
-	image = create_figure(sent_dist)
-
+	#creating images
+	hist = gen_hist(sent_dist)
+	bar = gen_bar(common_words)
 
 	data = {
 		'Words': len(words),
@@ -306,7 +305,7 @@ def analyzer(proj_id):
 		'Reading Time': str(int(len(words)/300))+' minutes ' + str(int((len(words)/300)*60 % 60)) + ' seconds'
 	}
 
-	return render_template('project/analyzer.html', project=project, sections=sections, image=image, title='Analyzer', data=data, common_words=common_words)
+	return render_template('project/analyzer.html', project=project, sections=sections, hist=hist, bar=bar, title='Statistics', data=data, common_words=common_words)
 
 @project.route('/delete/type=<type>/id=<id>', methods=['GET', 'POST'])
 @login_required

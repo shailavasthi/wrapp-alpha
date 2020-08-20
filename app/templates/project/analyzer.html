@@ -3,16 +3,22 @@
 
 {% block content %}
 <link rel='stylesheet' href="{{ url_for('project.static', filename='style.css') }}">
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('project.draft_editor', proj_id=project.id, version=1) }}">Draft Editor</a></li>
+      <li class="breadcrumb-item active" aria-current='page'>Statistics</li>
+    </ol>
+  </nav>
 
 <div class='container mt-5'>
 	<div class='row'>
 		<div class='col-sm'></div>
 		<div class='col-sm-6'>
-            <h1 class='text-center'>{{project.title}}: Analysis</h1>
+            <h1 class='text-center'>{{project.title}}: Statistics</h1>
             <hr>
-            <h3>Histogram of Sentence Length</h3>
-            <img src="{{ image }}" id='histogram'>
+            
             <h3>Statistics</h3>
             <table class="table">
                 <tbody>
@@ -24,8 +30,15 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <h3>Histogram of Sentence Length</h3>
+            <img src="{{ hist }}" id='histogram'>
             <h3>Most Common Words</h3>
+            <img src="{{ bar }}" id='bar'>
             <table class="table">
+                <thead>
+                    <th scope="col">Word</th>
+                    <th scope="col">Count</th>
+                </thead>
                 <tbody>
                     {% for word, count in common_words %}
                     <tr>
