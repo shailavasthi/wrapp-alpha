@@ -22,7 +22,7 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="{{ url_for('project.draft_viewer', proj_id=project.id) }}">Printable Version</a>
-              <a class="dropdown-item" href="#">View Stats</a>
+              <a class="dropdown-item" href="{{ url_for('project.analyzer', proj_id=project.id) }}">Analyzer</a>
             </div>
           </div>
           <hr>
@@ -35,8 +35,8 @@
                 Edit Section
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="{{ url_for('project.line_editor', proj_id=project.id, section_id=section.id) }}">Line Editor</a>
                 <a class="dropdown-item" href="{{ url_for('project.section_text_editor', proj_id=project.id, section_id=section.id) }}">Full Text Editor</a>
+                <a class="dropdown-item" href="{{ url_for('project.line_editor', proj_id=project.id, section_id=section.id) }}">Line Editor</a>
                 <a class="dropdown-item" href="#">Delete Section</a>
               </div>
           </div><br>

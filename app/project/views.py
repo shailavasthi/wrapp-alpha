@@ -6,9 +6,16 @@ from app.models import User, Project, Section
 from wtforms import TextAreaField, StringField
 from app import db
 from datetime import datetime
+
 # for nlp
 import spacy
 import re
+
+from collections import Counter
+import numpy as np
+
+from .analyzer import create_figure, get_length_distribution
+
 
 from . import project
 
@@ -64,7 +71,7 @@ def rename_project(proj_id):
 def outline(proj_id):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
-			return redirect(url_for('project.dashboard'))
+		return redirect(url_for('project.dashboard'))
 	form = OutlineForm()
 	if form.validate_on_submit():
 		project.sources = form.sources.data
@@ -116,7 +123,7 @@ def outline(proj_id):
 def first_draft(proj_id):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
-			return redirect(url_for('project.dashboard'))
+		return redirect(url_for('project.dashboard'))
 
 	sections = Section.query.filter_by(project_id=project.id).filter_by(version=1).order_by(Section.order)
 	class F(EditSectionsForm):
@@ -168,7 +175,7 @@ def draft_editor(proj_id, version):
 def line_editor(proj_id, section_id):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
-			return redirect(url_for('project.dashboard'))
+		return redirect(url_for('project.dashboard'))
 
 	def cleanhtml(raw_html):
 		cleanr = re.compile('<.*?>')
@@ -215,7 +222,7 @@ def line_editor(proj_id, section_id):
 def section_text_editor(proj_id, section_id):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
-			return redirect(url_for('project.dashboard'))
+		return redirect(url_for('project.dashboard'))
 
 	section = Section.query.get(int(section_id))
 	if section.project.id != current_user.id:
@@ -240,12 +247,66 @@ def section_text_editor(proj_id, section_id):
 def draft_viewer(proj_id):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
-			return redirect(url_for('project.dashboard'))
+		return redirect(url_for('project.dashboard'))
 	
 	sections = Section.query.filter_by(project_id=project.id).filter_by(version=1).all()
 
 	return render_template('project/draft_viewer.html', project=project, sections=sections)
 	
+@project.route('/analyzer/<proj_id>')
+@login_required
+def analyzer(proj_id):
+	project = Project.query.get(int(proj_id))
+	if current_user.id != project.user_id:
+		return redirect(url_for('project.dashboard'))
+
+	def cleanhtml(raw_html):
+		cleanr = re.compile('<.*?>')
+		cleantext = re.sub(cleanr, '', raw_html)
+		return cleantext
+
+	sections=project.sections
+
+	fulltext = ''
+	for section in project.sections:
+		fulltext += section.text + ' '
+
+	nlp = spacy.load('en_core_web_sm')
+	doc = nlp(cleanhtml(fulltext))
+
+	#sentences
+	sentences = [sent for sent in doc.sents]
+	#all words
+	words = [token.text for token in doc]
+	#minus stop words
+	stop_words = [token.text for token in doc if token.is_stop != True and token.is_punct != True]
+	#lemma
+	lemma = [token.lemma_ for token in doc if token.is_stop != True and token.is_punct != True]
+	#most common words
+	word_freq = Counter(lemma)
+	common_words = word_freq.most_common(10)
+
+	sent_dist = get_length_distribution(sentences)
+	word_dist = get_length_distribution(words)
+	keyword_dist = get_length_distribution(lemma)
+
+	image = create_figure(sent_dist)
+
+
+	data = {
+		'Words': len(words),
+		'Average Word Length (chars)': round(word_dist.mean(),2),
+		'Longest Word (chars)': np.max(word_dist),
+		'Sentences (words)': len(sentences),
+		'Average Sentence Length (words)': round(sent_dist.mean()),
+		'Longest Sentence (words)': np.max(sent_dist),
+		'Shortest Sentence (words)': np.min(sent_dist),
+		'Double Spaced Pages': round(len(words)/250,2),
+		'Single Spaced Pages': round(len(words)/500,2),
+		'Reading Time': str(int(len(words)/300))+' minutes ' + str(int((len(words)/300)*60 % 60)) + ' seconds'
+	}
+
+	return render_template('project/analyzer.html', project=project, sections=sections, image=image, title='Analyzer', data=data, common_words=common_words)
 
 @project.route('/delete/type=<type>/id=<id>', methods=['GET', 'POST'])
 @login_required

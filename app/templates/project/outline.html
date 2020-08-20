@@ -19,16 +19,21 @@
         <div class='col-sm-8'>
             
             <form action='' method='POST'>
-                {{ form.hidden_tag() }}
-                <div class="">
+				{{ form.hidden_tag() }}
+				<h4>Instructions</h4>
+				<p>
+					In this section, you're going to develop an outline for your project.
+				</p>
+                <div>
 					<h4 id='sources'>Sources</h4>
-					<p>If you are using outside sources for your project, add them here. Some things you might 
-						want to include:
+					<p>
+						It's recommended that you do any research for your project before you begin writing. If you plan
+						on using outside sources, write about them here. For each source, you may consider including:
 					</p>
 					<ul>
-						<li>Name of source and where to find it.</li>
-						<li>Any direct quotes that you want to use from the sources.</li>
-						<li>Any notes that you've taken on the sources that you want to reference in your writing.</li>
+						<li>The source's title, author, and where to find it</li>
+						<li>Any quotes or page numbers that you want to reference</li>
+						<li>Your own notes on the source</li>
 					</ul>
 					
 					<div class='form-group'>
@@ -37,57 +42,72 @@
 		       		
 				</div>
 				<div class="">
-					<h4 id='freewrite'>Free Write</h4>
-					<p>Write freely about your topic for 10 minutes. Try and write continuously. Don't 
-					pay attention to grammar and spelling, and don't worry about editing what you wrote.
-					Just try and get all of your ideas about your topic down on paper. If you use informaition
-					from sources or find that you need to include more sources, indicate that in your writing </p>
-					
-					<div class='form-group'>
-						<textarea class="form-control editor" name="freewrite" rows=20>{{ project.freewrite }}</textarea> <br>
-		       		</div>
-		       		
-				</div>
-				<div class="">
 					<h4 id='question'>Question</h4>
-					<p>Every piece of writing should answer a question. Now that you have gathered your 
-					ideas and thought them through, decide on a question that you want your project to 
-					answer. </p>
+					<p>
+						Write the main quesion that you want your project to answer. This may be a research question, an
+						essay prompt, or a question that you come up with on your own. Writing with a question in mind
+						will help keep your writing directed and focused.
+					</p>
 					
 					<div class='form-group'>
 			            <textarea class="form-control" name="question" rows=5>{{ project.question }}</textarea><br>   
 					</div>
 				</div>
+				<div class="">
+					<h4 id='freewrite'>Free Write</h4>
+					<p>
+						Write continuously about your topic for 10 to 20 minutes (it may help you to set a timer). Don't worry
+						about grammar, style, or editing what you write. For now, just focus on getting all of your 
+						ideas onto paper. Feel free to include material from your sources in your free write.
+					</p>
+					<div class='form-group'>
+						<textarea class="form-control editor" name="freewrite" rows=20>{{ project.freewrite }}</textarea> <br>
+		       		</div>
+		       		
+				</div>
+				
 				<div class="form-group">
                     <h4 id='thesis'>Thesis</h4>
                     <p>
-                        In the previous section, you said that the main question that you want to answer
-                        with your project is: <strong>{{project.question|safe}}</strong> Now, come up with an answer to this
-                        question. You can think of the answer as your thesis. It is the main argument or point of your paper. 
-                        Write it in the box below.
+						Now that you have an idea of what you're going to write about, write at least one sentence that 
+						answers the question you came up with earlier. You can think of this as your thesis, or "main idea."
                     </p>
 					<textarea name='thesis' class='form-control'>{{ project.thesis }}</textarea><br>
-					<h4 id='sections'>Sections</h4>
+					<h4 id='sections'>Outline</h4>
                     <p>
-                        Now, decide how many sections you will need to answer this question. 
-                        Sections may be single paragraphs or groups of paragraphs,
-                        but each section should prove a single point or explore a single idea. All of your sections
-                        put together should lead the reader to your overall answer. Optional: use the box below
-						to plan out your sections (note: this will not be saved). Then, select how many sections you
-						will need below.
-                    </p>
-                    <textarea name="outline" class='form-control editor'>{{project.outline}}</textarea><br>
-					<label for="select-sections">New Number of Sections (Currently {{project.num_sections}})</label>
+						It's time to write your outline. First, divide your project into sections. Each section should explore a 
+						single idea, and your sections should be ordered logically so that they develop your thesis.
+						Depending on how long your project will be, each section may either be a single paragraph or a collection 
+						of paragraphs.
+					</p>
+					<p>
+						Next, for each section, write a single sentence that summarizes the main idea of that section or the 
+						question that the section will answer.
+					</p>
+					<p>
+						Finally, under each outline heading, write a summary of the points you want to make in that section, ideas 
+						you want to explore, source material you want to include, or anything else that may help you in writing
+						your first draft.
+					</p>
+					<textarea name="outline" class='form-control editor'>{{project.outline}}</textarea><br>
+					<h4>Sections</h4>
+					<p>
+						Count the number of sections that you have in your outline, and select that number below. Make sure to 
+						include an introduction and conclusion if you need them. 
+					</p>
+					<label for="select-sections">New Number of Sections: (Currently {{project.num_sections}})</label>
 					<select name="num_sections" id="select-sections" class="form-control">
 						{% for n in range(1, max_sections+1) %}
 							<option value="{{n}}">{{n}}</option>
 						{% endfor %}
 					</select>
 					<p>
-						Note: if you decrease the amount of sections from the current number, 
-                        all of the excess sections will be deleted and your work will be lost.
+						<strong>
+							Warning: if you decrease the amount of sections from the current number, 
+							all of the excess sections will be deleted and your work in those sections will be lost.
+						</strong>
                     </p>
-                    {{ form.submit(class='btn btn-light')}}
+                    {{ form.submit(class='btn btn-primary')}}
                   </div>
             </form>
             
