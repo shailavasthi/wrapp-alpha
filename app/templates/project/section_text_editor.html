@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
 <link rel='stylesheet' href="{{ url_for('project.static', filename='style.css') }}">
@@ -9,26 +8,21 @@
     <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
     <li class="breadcrumb-item"><a href="{{ url_for('project.draft_editor', proj_id=project.id, version=1) }}">Draft Editor</a></li>
-    <li class="breadcrumb-item active" aria-current='page'>Line Editor</li>
+    <li class="breadcrumb-item active" aria-current='page'>Section Text Editor</li>
   </ol>
 </nav>
 <div class='container mt-5'>
     <div class='row'>
         <div class='col-sm'></div>
         <div class='col-sm-8'>  
-          <h1 class='heading'>{{ project.title }}: Section {{section.order}} Line Editor</h1>
+          <h1 class='heading'>{{ project.title }}: Draft Editor</h1>
           <hr>
-          <p>Note: this will remove all formatting from your section (bold, italics, bullets, etc.).
-            If you wish to add formatting after using this feature, use the full text editor in the draft
-            editor.
-          </p>
+
           <form action='' method='post'>
             {{ form.hidden_tag() }}
-            {% for sentence, field in combo %}
-                <div class='form-group'>
-                    <textarea class='form-control' name='{{field.name}}'>{{sentence}}</textarea>
-                </div>
-            {% endfor %}
+            <div class='form-group'>
+                <textarea name='text' class='form-control editor'>{{ section.text }}</textarea>
+            </div>
             <div class='form-group'>
                 {{ form.submit(class='btn btn-primary') }}
             </div>

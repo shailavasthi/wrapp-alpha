@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_required
-from .forms import NewProjectForm, DeleteForm, OutlineForm, EditSectionsForm, LineEditorForm
+from .forms import NewProjectForm, DeleteForm, OutlineForm, EditSectionsForm, LineEditorForm, SectionTextEditorForm
 from werkzeug.security import check_password_hash 
 from app.models import User, Project, Section
 from wtforms import TextAreaField, StringField
@@ -31,7 +31,7 @@ def new_project():
 		db.session.add(project)
 		db.session.commit()
 
-		return redirect(url_for('project.dashboard'))
+		return redirect(url_for('project.project_dashboard', proj_id=project.id))
 
 	return render_template('project/new_project.html', form=form, title='New Project')
 
@@ -118,7 +118,7 @@ def first_draft(proj_id):
 		setattr(F, key, TextAreaField(value))
 
 	form = F()
-
+	
 	if form.validate_on_submit():
 		for key, value in record.items():
 			section = sections.filter_by(order=key).first()
@@ -142,10 +142,8 @@ def first_draft(proj_id):
 def draft_editor(proj_id, version):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
-			return redirect(url_for('project.dashboard'))
+		return redirect(url_for('project.dashboard'))
 	sections = Section.query.filter_by(project_id=project.id).filter_by(version=version).all()
-
-	nlp=spacy.load('en_core_web_sm')
 
 	return render_template('project/draft_editor.html', title='Draft Editor', project=project, sections=sections)
 
@@ -156,25 +154,70 @@ def line_editor(proj_id, section_id):
 	if current_user.id != project.user_id:
 			return redirect(url_for('project.dashboard'))
 
-	#def cleanhtml(raw_html):
-		#cleanr = re.compile('<.*?>')
-		#cleantext = re.sub(cleanr, '', raw_html)
-		#return cleantext
+	def cleanhtml(raw_html):
+		cleanr = re.compile('<.*?>')
+		cleantext = re.sub(cleanr, '', raw_html)
+		return cleantext
 
 	section = Section.query.get(int(section_id))
-	#nlp = spacy.load('en_core_web_sm')
-	#doc = nlp(cleanhtml(section.text))
-	#sentences = [sent for sent in doc.sents]
-	print(section.order)
-	sentences = ['Hello there!']
+	if section.project.id != current_user.id:
+		return redirect(url_for('project.dashboard'))
 
+
+	nlp = spacy.load('en_core_web_sm')
+	doc = nlp(cleanhtml(section.text))
+	sentences = [sent for sent in doc.sents]
+	
 	form = LineEditorForm()
+
+	for sentence in sentences:
+		form.sentences.append_entry()
+
+	combo = zip(sentences, form.sentences)
 	
 	if form.validate_on_submit():
+		flash('Section Saved', 'info')
+		compiled = ''
+		for sentence in form.sentences:
+			if sentence.data is not None:
+				compiled += sentence.data + ' '
+			section.text = compiled
+			db.session.commit()
+
 		return redirect(url_for('project.draft_editor', proj_id=project.id, version=1))
 
-	return render_template('project/line_editor.html', title='Line Editor', sentences=sentences, project=project, form=form)
+	return render_template('project/line_editor.html', 
+							title='Line Editor', 
+							sentences=sentences, 
+							section=section,
+							project=project, 
+							combo=combo,
+							form=form)
 	
+@project.route('/section_text_editor/<proj_id>/<section_id>', methods=['GET', 'POST'])
+@login_required
+def section_text_editor(proj_id, section_id):
+	project = Project.query.get(int(proj_id))
+	if current_user.id != project.user_id:
+			return redirect(url_for('project.dashboard'))
+
+	section = Section.query.get(int(section_id))
+	if section.project.id != current_user.id:
+		return redirect(url_for('project.dashboard'))
+
+	form = SectionTextEditorForm()
+
+	if form.validate_on_submit():
+		section.text = form.text.data
+		db.session.commit()
+		flash('Section Saved', 'info')
+		return redirect(url_for('project.draft_editor', proj_id=project.id, version=1))
+
+	return render_template('project/section_text_editor.html', 
+							title='Full Text Editor',
+							section=section, 
+							project=project, 
+							form=form)
 
 @project.route('/delete/type=<type>/id=<id>', methods=['GET', 'POST'])
 @login_required

@@ -25,8 +25,10 @@ class EditSectionsForm(FlaskForm):
 	submit = SubmitField('Save Draft')
 	pass
 
-
 class LineEditorForm(FlaskForm):
 	sentences = FieldList(TextAreaField('Sentence'))
 	submit = SubmitField('Save Section')
 
+class SectionTextEditorForm(FlaskForm):
+	text = TextAreaField('Text')
+	submit = SubmitField('Save Section')
