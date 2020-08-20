@@ -16,13 +16,22 @@
         </div>
         <div class='col-sm-8'>  
           <h1 class='heading'>{{ project.title }}: Draft Editor </h1>
+          <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Actions
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="{{ url_for('project.draft_viewer', proj_id=project.id) }}">Printable Version</a>
+              <a class="dropdown-item" href="#">View Stats</a>
+            </div>
+          </div>
           <hr>
           {% for section in sections %}
             <h4>Section {{section.order}}</h4>
             <p>{{ section.text|safe }}</p>
             {% if section.text == '' %}<p>You haven't written anything in this section yet.</p>{% endif %}
             <div class="dropdown">
-              <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Edit Section
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

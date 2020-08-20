@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_required
-from .forms import NewProjectForm, DeleteForm, OutlineForm, EditSectionsForm, LineEditorForm, SectionTextEditorForm
+from .forms import NewProjectForm, DeleteForm, OutlineForm, EditSectionsForm, LineEditorForm, SectionTextEditorForm, RenameProjectForm
 from werkzeug.security import check_password_hash 
 from app.models import User, Project, Section
 from wtforms import TextAreaField, StringField
@@ -40,8 +40,24 @@ def new_project():
 def project_dashboard(proj_id):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
-			return redirect(url_for('project.dashboard'))
+		return redirect(url_for('project.dashboard'))
 	return render_template('project/project_dashboard.html', project=project, title='{}'.format(project.title))
+
+@project.route('rename_project/<proj_id>', methods=['GET', 'POST'])
+@login_required
+def rename_project(proj_id):
+	project = Project.query.get(int(proj_id))
+	if current_user.id != project.user_id:
+		return redirect(url_for('project.dashboard'))
+	
+	form = RenameProjectForm()
+
+	if form.validate_on_submit():
+		project.title = form.title.data
+		db.session.commit()
+		flash('Project Renamed', 'success')
+		return redirect(url_for('project.project_dashboard', proj_id=project.id))
+	return render_template('project/rename_project.html', project=project, form=form)
 
 @project.route('/outline/<proj_id>', methods=['GET','POST'])
 @login_required
@@ -87,7 +103,7 @@ def outline(proj_id):
 		project.outline = form.outline.data
 		project.last_edit = datetime.utcnow()
 		db.session.commit()
-		flash('Outline Saved', 'info')
+		flash('Outline Saved', 'success')
 		return redirect(url_for('project.project_dashboard', proj_id=project.id))
 	return render_template('project/outline.html', 
 							project=project, 
@@ -126,7 +142,7 @@ def first_draft(proj_id):
 			section.text = data
 		project.last_edit = datetime.utcnow()
 		db.session.commit()
-		flash('First Draft Saved', 'info')
+		flash('First Draft Saved', 'success')
 		return redirect(url_for('project.project_dashboard', proj_id=project.id))
 
 	return render_template(
@@ -176,7 +192,7 @@ def line_editor(proj_id, section_id):
 	combo = zip(sentences, form.sentences)
 	
 	if form.validate_on_submit():
-		flash('Section Saved', 'info')
+		flash('Section Saved', 'success')
 		compiled = ''
 		for sentence in form.sentences:
 			if sentence.data is not None:
@@ -210,7 +226,7 @@ def section_text_editor(proj_id, section_id):
 	if form.validate_on_submit():
 		section.text = form.text.data
 		db.session.commit()
-		flash('Section Saved', 'info')
+		flash('Section Saved', 'success')
 		return redirect(url_for('project.draft_editor', proj_id=project.id, version=1))
 
 	return render_template('project/section_text_editor.html', 
@@ -218,6 +234,18 @@ def section_text_editor(proj_id, section_id):
 							section=section, 
 							project=project, 
 							form=form)
+
+@project.route('/draft_viewer/<proj_id>')
+@login_required
+def draft_viewer(proj_id):
+	project = Project.query.get(int(proj_id))
+	if current_user.id != project.user_id:
+			return redirect(url_for('project.dashboard'))
+	
+	sections = Section.query.filter_by(project_id=project.id).filter_by(version=1).all()
+
+	return render_template('project/draft_viewer.html', project=project, sections=sections)
+	
 
 @project.route('/delete/type=<type>/id=<id>', methods=['GET', 'POST'])
 @login_required

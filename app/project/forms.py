@@ -8,6 +8,10 @@ class NewProjectForm(FlaskForm):
 	progress = BooleanField('I already have a draft')
 	submit = SubmitField('Create Project')
 
+class RenameProjectForm(FlaskForm):
+	title = StringField('Project Title', validators=[DataRequired()])
+	submit = SubmitField('Rename Project')
+
 class DeleteForm(FlaskForm):
 	password = PasswordField('Enter Your Password', validators=[DataRequired()])
 	submit = SubmitField('Delete Project')

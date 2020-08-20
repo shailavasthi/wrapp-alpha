@@ -21,7 +21,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" href="{{ url_for('project.delete', id=project.id, type='project') }}">Delete</a>
-                  <a class="dropdown-item" href="#">Rename</a>
+                  <a class="dropdown-item" href="{{ url_for('project.rename_project', proj_id=project.id) }}">Rename</a>
                   <a class="dropdown-item" href="#">View Stats</a>
                 </div>
             </div>
