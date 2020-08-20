@@ -121,7 +121,12 @@
     $("input").change(function(){
         $( '#counter' ).text('New Number of Sections: ' + this.value)
 }); 
+	if ({{project.num_sections}}==0) {
+		console.log('bitch')
+		$('#select-sections').val(1);
+	} else {
+		$('#select-sections').val({{project.num_sections}});
+	}
 	
-	$('#select-sections').val({{project.num_sections}});
 </script>
 {% endblock %}

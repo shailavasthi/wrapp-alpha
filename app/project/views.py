@@ -47,6 +47,18 @@ def project_dashboard(proj_id):
 		return redirect(url_for('project.dashboard'))
 	return render_template('project/project_dashboard.html', project=project, title='{}'.format(project.title))
 
+@project.route('/progress/<proj_id>')
+@login_required
+def progress(proj_id):
+	project = Project.query.get(int(proj_id))
+	if current_user.id != project.user_id:
+		return redirect(url_for('project.dashboard'))
+
+	stage = project.stage 
+	project.stage = int(stage)+1
+	db.session.commit()
+	return redirect(url_for('project.project_dashboard', proj_id=project.id))
+
 @project.route('rename_project/<proj_id>', methods=['GET', 'POST'])
 @login_required
 def rename_project(proj_id):
