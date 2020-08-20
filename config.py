@@ -7,9 +7,8 @@ load_dotenv(os.path.join(basedir, '.env'))
 
 class Config:
     """Set Flask config variables."""
-
+    LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
     FLASK_ENV = 'development'
-    FLASK_DEBUG=1
     TESTING = False
     DEBUG = True
     SECRET_KEY = os.environ.get('SECRET_KEY')
