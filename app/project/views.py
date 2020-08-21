@@ -192,7 +192,7 @@ def line_editor(proj_id, section_id):
 		return cleantext
 
 	section = Section.query.get(int(section_id))
-	if section.project.id != current_user.id:
+	if section.project.user_id != current_user.id:
 		return redirect(url_for('project.dashboard'))
 
 
@@ -308,7 +308,7 @@ def statistics(proj_id):
 		'Words': len(words),
 		'Average Word Length (chars)': round(word_dist.mean(),2),
 		'Longest Word (chars)': np.max(word_dist),
-		'Sentences (words)': len(sentences),
+		'Sentences': len(sentences),
 		'Average Sentence Length (words)': round(sent_dist.mean()),
 		'Longest Sentence (words)': np.max(sent_dist),
 		'Shortest Sentence (words)': np.min(sent_dist),
