@@ -234,7 +234,7 @@ def section_text_editor(proj_id, section_id):
 		return redirect(url_for('project.dashboard'))
 
 	section = Section.query.get(int(section_id))
-	if section.project.id != current_user.id:
+	if section.project.user_id != current_user.id:
 		return redirect(url_for('project.dashboard'))
 
 	form = SectionTextEditorForm()
