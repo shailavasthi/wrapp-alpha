@@ -18,7 +18,18 @@
         <div class='col-sm-8'>  
           <h1 class='heading'>{{ project.title }}: Section {{section.order}} Line Editor</h1>
           <hr>
-          <p>Note: this will remove all formatting from your section (bold, italics, bullets, etc.).
+          <h4>
+            Instructions
+          </h4>
+          <p>
+            The line editor allows you to improve each sentence in your project individually. This feature
+            should be used when the content of your project is nearly finished, and your main focus is to improve your 
+            style or grammar. Try and make each sentence better by cutting out unnecessary information, by making your writing 
+            more consise, or by picking better words. You should repeat this process until it's not obvious to you whether
+            the changes you're making are improving your writing anymore.
+          </p>
+          <p>
+            Note: Saving from the line editor will remove all formatting from your section (bold, italics, bullets, etc.).
             If you wish to add formatting after using this feature, use the full text editor in the draft
             editor.
           </p>
@@ -26,7 +37,7 @@
             {{ form.hidden_tag() }}
             {% for sentence, field in combo %}
                 <div class='form-group'>
-                    <textarea class='form-control' name='{{field.name}}'>{{sentence}}</textarea>
+                    <textarea class='form-control' name='{{field.name}}' rows='5'>{{sentence|safe}}</textarea>
                 </div>
             {% endfor %}
             <div class='form-group'>

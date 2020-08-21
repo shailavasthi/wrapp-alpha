@@ -28,10 +28,7 @@ def new_project():
 	form = NewProjectForm()
 
 	if form.validate_on_submit():
-		if form.progress.data == True:
-			project = Project(title=form.title.data, user_id=current_user.id, stage=4, timestamp=datetime.now())
-		else:
-			project = Project(title=form.title.data, user_id=current_user.id, stage=1, timestamp=datetime.now())
+		project = Project(title=form.title.data, user_id=current_user.id, stage=1, timestamp=datetime.now())
 		db.session.add(project)
 		db.session.commit()
 
@@ -175,7 +172,7 @@ def draft_editor(proj_id, version):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
 		return redirect(url_for('project.dashboard'))
-	sections = Section.query.filter_by(project_id=project.id).filter_by(version=version).all()
+	sections = Section.query.filter_by(project_id=project.id).filter_by(version=version).order_by(Section.order).all()
 
 	return render_template('project/draft_editor.html', title='Draft Editor', project=project, sections=sections)
 
@@ -298,7 +295,6 @@ def statistics(proj_id):
 	sent_dist = get_length_distribution(sentences)
 	word_dist = get_length_distribution(words)
 	keyword_dist = get_length_distribution(lemma)
-	print(common_words)
 
 	#creating images
 	hist = gen_hist(sent_dist)

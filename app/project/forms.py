@@ -5,7 +5,6 @@ from app.models import User, Project
 
 class NewProjectForm(FlaskForm):
 	title = StringField('Project Title', validators=[DataRequired()])
-	progress = BooleanField('I already have a draft')
 	submit = SubmitField('Create Project')
 
 class RenameProjectForm(FlaskForm):
