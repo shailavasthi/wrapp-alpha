@@ -1,17 +1,17 @@
 {% extends 'auth/auth_base.html' %}
 
 {% block content %}
+
 <div class='container mt-5'>
 	<div class='row'>
 		<div class='col-sm'></div>
 		<div class='col-sm-6'>
-			<h1>{{user.first_name}}'s Account</h1>
-			<hr>
-            <a href="{{ url_for('auth.edit_info') }}" class="list-group-item list-group-item-action">Edit Info</a>
-            <a href="{{ url_for('auth.delete_account') }}" class="list-group-item list-group-item-action">Delete Account</a>
-			
-                
-            
+			<div class="form-container">
+				<h1>{{user.first_name}}'s Account</h1>
+				<hr>
+				<a href="{{ url_for('auth.edit_info') }}" class="list-group-item list-group-item-action">Edit Info</a>
+				<a href="{{ url_for('auth.delete_account') }}" class="list-group-item list-group-item-action">Delete Account</a>
+			</div>
 		</div>
 		<div class='col-sm'></div>
 	</div>

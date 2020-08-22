@@ -28,17 +28,6 @@
       'bullist numlist outdent indent | link charmap| print preview fullpage | ' +
       'forecolor backcolor | help',
     });
-    tinymce.init({
-      selector: 'textarea.sentence-editor',
-      menubar: false,
-      height: 200,
-      plugins: [
-      'advlist autolink link lists charmap print preview hr anchor pagebreak',
-      'searchreplace wordcount visualblocks visualchars fullscreen nonbreaking',
-      'template paste help fullscreen'
-    ],
-      toolbar: 'fullscreen | undo redo | bold italic| '
-    });
   </script>
   {{ moment.include_moment() }}
 	<title>{% block title %} {{ title }} {% endblock %}</title>
