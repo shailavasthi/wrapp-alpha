@@ -7,7 +7,7 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ url_for('project.draft_editor', proj_id=project.id, version=1) }}">Draft Editor</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('project.draft_editor', proj_id=project.id) }}">Draft Editor</a></li>
     <li class="breadcrumb-item active" aria-current='page'>Section Text Editor</li>
   </ol>
 </nav>

@@ -83,11 +83,11 @@ def outline(proj_id):
 		project.sources = form.sources.data
 		project.freewrite = form.freewrite.data
 		project.question = form.question.data
-		sections = Section.query.filter_by(project_id=project.id).filter_by(version=1).order_by(Section.order)
+		sections = Section.query.filter_by(project_id=project.id).order_by(Section.order)
 
 		if form.num_sections.data < project.num_sections:
 			difference = project.num_sections - form.num_sections.data
-			rev_sections = Section.query.filter_by(project_id=project.id).filter_by(version=1).order_by(Section.order.desc())
+			rev_sections = Section.query.filter_by(project_id=project.id).order_by(Section.order.desc())
 			i = 0
 			while i < difference:
 				to_delete = rev_sections.first()
@@ -102,7 +102,6 @@ def outline(proj_id):
 				section = Section(
 					project_id=project.id,
 					parent_type="draft",
-					version=1,
 					order=sections.count()+1,
 				)
 				db.session.add(section)
@@ -131,7 +130,7 @@ def first_draft(proj_id):
 	if current_user.id != project.user_id:
 		return redirect(url_for('project.dashboard'))
 
-	sections = Section.query.filter_by(project_id=project.id).filter_by(version=1).order_by(Section.order)
+	sections = Section.query.filter_by(project_id=project.id).order_by(Section.order)
 	class F(EditSectionsForm):
 		pass
 
@@ -166,13 +165,13 @@ def first_draft(proj_id):
 		title='First Draft: {}'.format(project.title)
 	)
 
-@project.route('/draft_editor/<proj_id>/<version>', methods=['GET', 'POST'])
+@project.route('/draft_editor/<proj_id>', methods=['GET', 'POST'])
 @login_required
-def draft_editor(proj_id, version):
+def draft_editor(proj_id):
 	project = Project.query.get(int(proj_id))
 	if current_user.id != project.user_id:
 		return redirect(url_for('project.dashboard'))
-	sections = Section.query.filter_by(project_id=project.id).filter_by(version=version).order_by(Section.order).all()
+	sections = Section.query.filter_by(project_id=project.id).order_by(Section.order).all()
 
 	return render_template('project/draft_editor.html', title='Draft Editor', project=project, sections=sections)
 
@@ -214,7 +213,7 @@ def line_editor(proj_id, section_id):
 			section.text = compiled
 			db.session.commit()
 
-		return redirect(url_for('project.draft_editor', proj_id=project.id, version=1))
+		return redirect(url_for('project.draft_editor', proj_id=project.id))
 
 	return render_template('project/line_editor.html', 
 							title='Line Editor', 
@@ -242,7 +241,7 @@ def section_text_editor(proj_id, section_id):
 		section.text = form.text.data
 		db.session.commit()
 		flash('Section Saved', 'success')
-		return redirect(url_for('project.draft_editor', proj_id=project.id, version=1))
+		return redirect(url_for('project.draft_editor', proj_id=project.id))
 
 	return render_template('project/section_text_editor.html', 
 							title='Full Text Editor',
@@ -257,7 +256,7 @@ def draft_viewer(proj_id):
 	if current_user.id != project.user_id:
 		return redirect(url_for('project.dashboard'))
 	
-	sections = Section.query.filter_by(project_id=project.id).filter_by(version=1).all()
+	sections = Section.query.filter_by(project_id=project.id).all()
 
 	return render_template('project/draft_viewer.html', project=project, sections=sections)
 	
