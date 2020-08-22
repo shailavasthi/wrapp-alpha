@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'project/project_base.html' %}
 
 {% block content %}
 <link rel='stylesheet' href="{{ url_for('project.static', filename='style.css') }}">
@@ -21,7 +21,7 @@
               Actions
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="{{ url_for('project.statistics', proj_id=project.id) }}">Statistics (cool)</a>
+              <a class="dropdown-item" href="{{ url_for('project.statistics', proj_id=project.id) }}">Statistics</a>
               <a class="dropdown-item" href="{{ url_for('project.draft_viewer', proj_id=project.id) }}">Printable Version</a>
               
             </div>
