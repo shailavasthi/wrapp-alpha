@@ -9,7 +9,7 @@ def gen_hist(d):
 	fig = Figure()
 	ax = fig.subplots()
 	num_bins = 10
-	ax.hist(d, num_bins, facecolor='red', alpha=.5, histtype='bar', ec='black')
+	ax.hist(d, num_bins, histtype='bar', ec='black')
 	ax.set_xlabel('Sentence Length')
 	ax.set_ylabel('Frequency')
 	ax.set_title('Histogram of Sentence Length')
@@ -31,7 +31,7 @@ def gen_bar(word_list):
 	counts = list(zip(*word_list))[1]
 	y_pos = np.arange(len(words)) 
 	
-	ax.barh(y_pos, counts,align='center', facecolor='c', alpha=0.5)
+	ax.barh(y_pos, counts,align='center')
 	ax.invert_yaxis()
 	ax.set_yticks(y_pos) 
 	ax.set_yticklabels(words)

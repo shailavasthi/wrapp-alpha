@@ -16,13 +16,14 @@
         </div>
         <div class='col-sm-8'>  
           <h1 class='heading'>{{ project.title }}: Draft Editor </h1>
-          <div class="dropdown">
+          <div class="dropdown ddown">
             <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Actions
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="{{ url_for('project.statistics', proj_id=project.id) }}">Statistics (cool)</a>
               <a class="dropdown-item" href="{{ url_for('project.draft_viewer', proj_id=project.id) }}">Printable Version</a>
-              <a class="dropdown-item" href="{{ url_for('project.statistics', proj_id=project.id) }}">Statistics</a>
+              
             </div>
           </div>
           <hr>
@@ -31,13 +32,13 @@
             <p>{{ section.text|safe }}</p>
             {% if section.text == '' %}<p>You haven't written anything in this section yet.</p>{% endif %}
             <div class="dropdown">
-              <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Edit Section
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{{ url_for('project.section_text_editor', proj_id=project.id, section_id=section.id) }}">Full Text Editor</a>
                 <a class="dropdown-item" href="{{ url_for('project.line_editor', proj_id=project.id, section_id=section.id) }}">Line Editor</a>
-                <a class="dropdown-item" href="#">Delete Section</a>
+                <a class="dropdown-item" href="#">Delete Section (coming soon)</a>
               </div>
           </div><br>
           {% endfor %}

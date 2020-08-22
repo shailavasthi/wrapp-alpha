@@ -15,13 +15,13 @@
         <div class='col-sm-8'>
           <div>
             <h1 class='heading'>{{ project.title }}: Project Dashboard</h1>
-            <div class="dropdown">
+            <div class="dropdown ddown">
                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Actions
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="{{ url_for('project.delete', id=project.id, type='project') }}">Delete</a>
                   <a class="dropdown-item" href="{{ url_for('project.rename_project', proj_id=project.id) }}">Rename</a>
+                  <a class="dropdown-item" href="{{ url_for('project.delete', id=project.id, type='project') }}">Delete</a>
                 </div>
             </div>
           </div>
@@ -40,7 +40,7 @@
                 Write your project's first draft, developing the ideas in your outline.
               </p>
               <a href="{{ url_for("project.first_draft", proj_id=project.id) }}" class="btn btn-primary">Edit First Draft &raquo</a>
-              {% if project.stage == '2' %}<a href="{{ url_for('project.progress', proj_id=project.id) }}" class="im-done">I'm done with this step &raquo</a>{% endif %}
+              {% if project.stage == '2' %}<a href="{{ url_for('project.progress', proj_id=project.id) }}" class='im-done btn btn-sm btn-outline-success'>Mark as Complete &raquo</a>{% endif %}
             </div>
           </div>
           <div class="card card-border stage" id='step1'>
@@ -51,7 +51,7 @@
                 your first draft.
               </p>
               <a href="{{ url_for("project.outline", proj_id=project.id) }}" class="btn btn-primary">Edit Outline &raquo</a>
-              {% if project.stage == '1' %}<a href="{{ url_for('project.progress', proj_id=project.id) }}" class='im-done'>I'm done with this step &raquo</a>{% endif %}
+              {% if project.stage == '1' and project.num_sections > 0 %}<a href="{{ url_for('project.progress', proj_id=project.id) }}" class='im-done btn btn-sm btn-outline-success'>Mark as Complete &raquo</a>{% endif %}
               
     
             </div>

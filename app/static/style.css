@@ -7,7 +7,7 @@
     margin-top: 2em;
   }
 
-#title {
+.title {
     text-align: center;
     margin-top: 10px;
     text-decoration: underline;
@@ -15,14 +15,17 @@
     text-underline-offset: 20px;
 }
 
-#subtitle {
+.subtitle {
     text-align: center;
     margin-top: 1em;
     color: darkgray;
     font-size: 30px;
 }
 
-
+.homepage-content {
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
 
 .center {
     text-align: center;

@@ -5,13 +5,14 @@
 
 <div class="container">
 	<img id="main-logo" src="{{ url_for('static', filename='homeicon.png') }}">
-	<div class="text-container">
+	<div>
 		{% if current_user.is_authenticated %}
-			<h1 class="display-3" id="title">Welcome, {{ current_user.first_name }}</h1>
+			<h1 class="display-3 title" id="">Welcome, {{ current_user.first_name }}</i></h1>
 		{% else %}
-			<h1 class="display-3" id="title">Wrapp</h1>
+			<h1 class="display-3 title" id="">Wrapp</h1>
 		{% endif %}
-		<p class="lead" id="subtitle">Turn your idea into a final draft in less time.</p>
+		<p class="lead subtitle" id="subtitle"></p>
+		
 		<div>
 			{% if current_user.is_authenticated %}
 			<div class='center'><a class="btn btn-light btn-lg" href="{{ url_for('project.dashboard') }}">Dashboard &raquo;</a></div>
@@ -20,9 +21,62 @@
 				<span class="center"><a class="btn btn-light btn-lg" href="{{ url_for('auth.login') }}">Sign In &raquo</a></span>
 				<span id="right-button" class="center"><a class="btn btn-light btn-lg" href="{{ url_for('auth.register') }}">Sign Up &raquo</a></span>
 			</div>
-		{% endif %}
+			{% endif %}
 		</div>
 	</div>
+	<div class='homepage-content'>
+		<div class='row'>
+			<div class='col-sm'></div>
+			<div class='col-sm-9'>
+				<h1 class='display-4 mb-4'>About Wrapp</h1>
+				<h3>Wrapp is a Tool for Efficient Writing</h3>
+				<p class='lead'>
+					Wrapp is designed with a hollistic writing process in mind. It's a tool for writers who want to 
+					take their ideas and turn them into polished final drafts as efficiently as possible, without 
+					sacrificing quality.
+				</p>
+				<h3>Who is Wrapp For?</h3>
+				<p class='lead'>
+					Wrapp was initially designed as a better way for students and researchers to write papers. 
+					However, it works just as a tool for writing articles, blog posts, or any similar kind 
+					of writing.
+				</p>
+				<h3>How Do I Use Wrapp?</h3>
+				<p class='lead'>
+					Wrapp takes your project through three phases: the Outline, the First Draft, and the Draft Editor.
+					Each phase integrates with the next so your writing process is cohesive. Each phase 
+					also comes with its own set of instructions so that you can focus on writing. Wrapp also 
+					organizes your project into sections and allows you to edit them individually so that large 
+					projects are more managable.
+				</p>
+				{% if current_user.is_anonymous %}
+				<h3>How Do I Get Started?</h3>
+				<p class='lead'>
+					Click <a href="{{ url_for('auth.register') }}"">this link</a> to sign up for a free account.
+				</p>
+				
+				{% endif %}
+			</div>
+			<div class='col-sm'></div>
+		</div>
+		
+
+	</div>
 </div>
+<script type='text/javascript'>
+
+var i = 0;
+var txt = 'Turn your idea into a final draft in less time.'; /* The text */
+var speed = 70; /* The speed/duration of the effect in milliseconds */
+
+function typeWriter() {
+if (i < txt.length) {
+	document.getElementById("subtitle").innerHTML += txt.charAt(i);
+	i++;
+	setTimeout(typeWriter, speed);
+}
+}
+typeWriter()
+</script>
 
 {% endblock %}

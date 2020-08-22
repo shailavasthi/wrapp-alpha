@@ -12,7 +12,8 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="https://cdn.tiny.cloud/1/kqj0f5ldh0xkkvbo1c1ocjceqntxmeus40lm6oigllpxjtky/tinymce/5/tinymce.min.js" referrerpolicy="origin"/></script>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
   <script>
     tinymce.init({
       selector: 'textarea.editor',
@@ -49,7 +50,7 @@
           <ul class="nav navbar-nav ml-auto">
             {% if current_user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('project.dashboard') }}">Dashboard</a>
+              <a class="nav-link" href="{{ url_for('project.dashboard') }}">Projects</a>
             </li>
             <li>
               <a class="nav-link" href="{{ url_for('auth.account') }}">Account</a>
