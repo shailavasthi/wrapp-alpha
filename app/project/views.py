@@ -256,7 +256,7 @@ def draft_viewer(proj_id):
 	if current_user.id != project.user_id:
 		return redirect(url_for('project.dashboard'))
 	
-	sections = Section.query.filter_by(project_id=project.id).all()
+	sections = Section.query.filter_by(project_id=project.id).order_by(Section.order).all()
 
 	return render_template('project/draft_viewer.html', project=project, sections=sections)
 	

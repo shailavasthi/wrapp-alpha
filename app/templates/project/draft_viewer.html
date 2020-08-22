@@ -15,10 +15,15 @@
         <div class='col-sm'> 
         </div>
         <div class='col-sm-8'>  
-          <h1 class='heading'>{{ project.title }}</h1>
-          {% for section in sections %}
-            <p>{{ section.text|safe }}</p>
-          {% endfor %}
+          <div class='title-content'>
+            <h2 class='heading'>{{ project.title }}</h2>
+            <p class='lead'>By {{current_user.first_name}} {{current_user.last_name}} on {{ moment(project.last_edit).format('MMMM Do, YYYY') }}</p>
+
+            {% for section in sections %}
+              <p>{{ section.text|safe }}</p>
+            {% endfor %}
+          </div>
+            
         </div>
         <div class='col-sm'></div>
     </div>

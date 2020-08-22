@@ -89,7 +89,7 @@ def delete_account():
 		user = current_user
 		db.session.delete(user)
 		db.session.commit()
-		flash('Account Deleted', 'info')
+		flash('Your account was deleted. Sorry to see you go!', 'info')
 		return redirect(url_for('home.home'))
 
 	return render_template('auth/delete_account.html', title='Delete Account', user=current_user, form=form)
