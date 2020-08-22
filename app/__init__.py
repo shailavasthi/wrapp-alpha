@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
+from flask_moment import Moment
 
 
 db = SQLAlchemy()
@@ -11,6 +12,7 @@ login = LoginManager()
 login.login_view = 'auth.login'
 login.login_message = 'Please log in to access this page.'
 bootstrap = Bootstrap()
+moment = Moment()
 
 def create_app():
 	app = Flask(__name__)
@@ -35,6 +37,7 @@ def create_app():
 	migrate.init_app(app, db)
 	login.init_app(app)
 	bootstrap.init_app(app)
+	moment.init_app(app)
 
 	if not app.debug and not app.testing:
 		# ...

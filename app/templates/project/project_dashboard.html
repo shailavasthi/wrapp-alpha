@@ -52,17 +52,13 @@
               </p>
               <a href="{{ url_for("project.outline", proj_id=project.id) }}" class="btn btn-primary">Edit Outline &raquo</a>
               {% if project.stage == '1' and project.num_sections > 0 %}<a href="{{ url_for('project.progress', proj_id=project.id) }}" class='im-done btn btn-sm btn-outline-success'>Mark as Complete &raquo</a>{% endif %}
-              
-    
             </div>
           </div>
         </div>
-          
-          
-          
         <div class='col-sm'></div>
     </div>
 </div>
+<!-- Footer -->
 
 
 <script type='text/javascript'>

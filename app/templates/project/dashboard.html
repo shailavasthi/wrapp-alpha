@@ -16,7 +16,7 @@
           <div class="card card-border">
             <div class="card-body">
               <h5 class="card-title">{{ project.title }}</h5>
-              <p class="card-text">Last Edit: {{ project.last_edit.strftime('%B %d, %Y %H:%M') }} | Created: {{ project.timestamp.strftime('%B %d, %Y') }}</p>
+              <p class="card-text">Last Edit: {{ moment(project.last_edit).calendar() }} | Created: {{ moment(project.timestamp).fromNow() }}</p>
               <a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}" class="btn btn-primary">Open Project &raquo</a>
             </div>
           </div>

@@ -19,7 +19,7 @@ from . import project
 @project.route('/dashboard')
 @login_required
 def dashboard():
-	projects = current_user.projects.all()
+	projects = current_user.projects.order_by(Project.last_edit.desc()).all()
 	return render_template('project/dashboard.html', projects=projects, title='Dashboard')
 
 @project.route('/new_project', methods=['GET', 'POST'])
@@ -206,6 +206,7 @@ def line_editor(proj_id, section_id):
 	
 	if form.validate_on_submit():
 		flash('Section Saved', 'success')
+		project.last_edit = datetime.utcnow()
 		compiled = ''
 		for sentence in form.sentences:
 			if sentence.data is not None:
@@ -237,6 +238,7 @@ def section_text_editor(proj_id, section_id):
 	form = SectionTextEditorForm()
 
 	if form.validate_on_submit():
+		project.last_edit = datetime.utcnow()
 		section.text = form.text.data
 		db.session.commit()
 		flash('Section Saved', 'success')
