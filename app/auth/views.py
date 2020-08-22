@@ -7,7 +7,7 @@ from app.models import User
 from app import db
 
 from . import auth
-from .forms import LoginForm, RegistrationForm, EditInfoForm
+from .forms import LoginForm, RegistrationForm, EditInfoForm, DeleteAccountForm
 
 @auth.route('/login', methods=['GET','POST'])
 def login():
@@ -80,9 +80,17 @@ def edit_info():
 
 	return render_template('auth/edit_info.html', title='Edit Info', user=current_user, form=form)
 
-@auth.route('/delete_account')
+@auth.route('/delete_account', methods=['GET', 'POST'])
 @login_required
 def delete_account():
+	form = DeleteAccountForm()
 
-	return render_template('auth/delete_account.html', title='Delete Account', user=current_user)
+	if form.validate_on_submit():
+		user = current_user
+		db.session.delete(user)
+		db.session.commit()
+		flash('Account Deleted', 'info')
+		return redirect(url_for('home.home'))
+
+	return render_template('auth/delete_account.html', title='Delete Account', user=current_user, form=form)
 

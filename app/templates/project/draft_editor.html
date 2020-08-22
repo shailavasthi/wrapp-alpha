@@ -15,19 +15,21 @@
         <div class='col-sm'> 
         </div>
         <div class='col-sm-8'>  
-          <h1 class='heading'>{{ project.title }}: Draft Editor </h1>
-          <div class="dropdown ddown">
-            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Actions
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="{{ url_for('project.statistics', proj_id=project.id) }}">Statistics</a>
-              <a class="dropdown-item" href="{{ url_for('project.draft_viewer', proj_id=project.id) }}">Printable Version</a>
-              
+          <div class="title-content mb-4">
+            <h2 class='heading'>{{ project.title }}: Draft Editor </h2>
+            <div class="dropdown ddown">
+              <button class="btn btn-outline-secondary mb-2 btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Actions
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="{{ url_for('project.statistics', proj_id=project.id) }}">Statistics</a>
+                <a class="dropdown-item" href="{{ url_for('project.draft_viewer', proj_id=project.id) }}">Printable Version</a>
+              </div>
             </div>
           </div>
-          <hr>
+            
           {% for section in sections %}
+          <div class="title-content mb-4">
             <h4>Section {{section.order}}</h4>
             <p>{{ section.text|safe }}</p>
             {% if section.text == '' %}<p>You haven't written anything in this section yet.</p>{% endif %}
@@ -40,9 +42,9 @@
                 <a class="dropdown-item" href="{{ url_for('project.line_editor', proj_id=project.id, section_id=section.id) }}">Line Editor</a>
                 <a class="dropdown-item" href="#">Delete Section (coming soon)</a>
               </div>
-          </div><br>
-          {% endfor %}
-          
+            </div><br>
+          </div>
+          {% endfor %}  
         </div>
         <div class='col-sm'></div>
     </div>

@@ -10,7 +10,8 @@
   <div class='row'>
       <div class='col-sm'></div>
       <div class='col-sm-8'>
-        <h1 class='heading center'>{{ current_user.first_name }}'s Projects</h1>
+        <div class="title-content"><h2 class='heading'>{{ current_user.first_name }}'s Projects</h2></div>
+        
         <hr>
         {% for project in projects %}
           <div class="card card-border">
@@ -27,7 +28,7 @@
             <p class="card-text">Start a new work in progress below.</p>
             <a href="{{ url_for('project.new_project') }}" class="btn btn-primary">New Project &raquo</a>
           </div>
-        </div>
+        </div>      
       </div>
       <div class='col-sm'></div>
   </div>

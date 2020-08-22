@@ -5,12 +5,28 @@
 <div class='container mt-5'>
     <div class='row'>
         <div class='col-sm'></div>
-        <div class='col-sm'>
-            <h1>Create New Project</h1>
-            {{ wtf.quick_form(form, button_map={'submit': 'btn btn-light'}) }}
+        <div class='col-sm-6'>
+            <div class='form-content'>
+                <h1>Create New Project</h1>
+                {{ wtf.quick_form(form, button_map={'submit': 'btn btn-light'}) }}
+            </div>
+            
         </div>
         <div class='col-sm'></div>
         
     </div>
 </div>
+<style type='text/css'>
+    .form-content {
+        background-color: white;
+        padding: 40px 40px 40px 40px;
+        border-radius: 20px;
+        border: 1px solid lightgray;
+    }
+    body {
+        background: #a8ff78;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #78ffd6, #a8ff78);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #78ffd6, #a8ff78); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+</style>
 {% endblock %}

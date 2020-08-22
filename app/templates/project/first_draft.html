@@ -1,6 +1,8 @@
 {% extends 'project/project_base.html' %}
 
 {% block content %}
+<link rel='stylesheet' href="{{ url_for('project.static', filename='style.css') }}">
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
@@ -9,18 +11,31 @@
     </ol>
 </nav>
 <div class='container mt-5'>
-    <h1 class='heading text-center'>{{ project.title }}: First Draft</h1>
-            <hr>
+    <div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm-8">
+            <div class="title-content mb-1">
+                <h2 class='heading text-center'>{{ project.title }}: First Draft</h2>
+            </div>
+        </div>
+        <div class="col-sm"></div>
+    </div>
+    <hr>
+    
+            
     <div class='row'>
         <div class='col-sm'>
-            <h6>Section Navigator</h6>
-            <div id="0" class='section-nav section-nav-0'>Directions</div>
-            {% for key, value in record.items() %}
-                <div id="{{key}}" class='section-nav section-nav-{{key}}'>{{ value }}</div>
-            {% endfor %}<br>
-            <button class='btn btn-light' data-toggle="modal" data-target="#exampleModal">Show Outline</button>               
+            <div class="title-content">
+                <h6>Section Navigator</h6>
+                <div id="0" class='section-nav section-nav-0'>Directions</div>
+                {% for key, value in record.items() %}
+                    <div id="{{key}}" class='section-nav section-nav-{{key}}'>{{ value }}</div>
+                {% endfor %}<br>
+                <button class='btn btn-light' data-toggle="modal" data-target="#exampleModal">Show Outline</button>            
+            </div>   
         </div>
         <div class='col-sm-8'>
+            <div class='title-content'>
             <div class="page page-0">
                 <h4>Directions</h4>
                 <p>
@@ -42,8 +57,9 @@
                         <textarea name="{{ key }}" class="editor">{{ sections.filter_by(order=key).first().text }}</textarea>
                     </div>
                 {% endfor %}
-                {{form.submit(class='btn btn-primary')}}
+                {{form.submit(class='btn btn-primary mb-2')}}
             </form> 
+            </div>
         </div>
         <div class='col-sm'></div>
     </div>

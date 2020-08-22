@@ -1,6 +1,11 @@
 {% extends 'project/project_base.html' %}
 
+
+
 {% block content %}
+
+<link rel='stylesheet' href="{{ url_for('project.static', filename='style.css') }}">
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
@@ -9,22 +14,25 @@
     </ol>
   </nav>
 <div class='container mt-5'>
-	<h1 class='text-center'>{{ project.title }}: Outline</h1>
-    <hr>
+	
     <div class='row'>
         <div class='col-sm'>
 			
 			
 		</div>
         <div class='col-sm-8'>
-            
+			<div class="title-content"><h2 class=''>{{ project.title }}: Outline</h2></div>
+	
+    		<hr>
+            <div class='title-content'> 
             <form action='' method='POST'>
 				{{ form.hidden_tag() }}
+				
 				<h4>Instructions</h4>
 				<p>
 					In this section, you're going to develop an outline for your project.
 				</p>
-                <div>
+                
 					<h4 id='sources'>Sources</h4>
 					<p>
 						It's recommended that you do any research for your project before you begin writing. If you plan
@@ -35,36 +43,37 @@
 						<li>Any quotes or page numbers that you want to reference</li>
 						<li>Your own notes on the source</li>
 					</ul>
-					
+				
 					<div class='form-group'>
 						<textarea class="form-control editor" name="sources" rows=20>{{ project.sources }}</textarea><br>
 		       		</div>
 		       		
-				</div>
-				<div class="">
+				
+				
 					<h4 id='question'>Question</h4>
 					<p>
 						Write the main quesion that you want your project to answer. This may be a research question, an
 						essay prompt, or a question that you come up with on your own. Writing with a question in mind
 						will help keep your writing directed and focused.
 					</p>
-					
+				
 					<div class='form-group'>
 			            <textarea class="form-control" name="question" rows=5>{{ project.question }}</textarea><br>   
 					</div>
-				</div>
-				<div class="">
+				
+				
 					<h4 id='freewrite'>Free Write</h4>
 					<p>
 						Write continuously about your topic for 10 to 20 minutes (it may help you to set a timer). Don't worry
 						about grammar, style, or editing what you write. For now, just focus on getting all of your 
 						ideas onto paper. Feel free to include material from your sources in your free write.
 					</p>
+				
 					<div class='form-group'>
 						<textarea class="form-control editor" name="freewrite" rows=20>{{ project.freewrite }}</textarea> <br>
 		       		</div>
 		       		
-				</div>
+				
 				
 				<div class="form-group">
                     <h4 id='thesis'>Thesis</h4>
@@ -110,7 +119,7 @@
                     {{ form.submit(class='btn btn-primary')}}
                   </div>
             </form>
-            
+            </div>
         </div>
         <div class='col-sm'></div>
     </div>

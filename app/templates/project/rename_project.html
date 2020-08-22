@@ -6,11 +6,30 @@
     <div class='row'>
         <div class='col-sm'></div>
         <div class='col-sm-6'>
-            <h1>Rename {{ project.title }}</h1>
-            {{ wtf.quick_form(form, button_map={'submit': 'btn btn-light'}) }}
+            <div class="form-content">
+                <h1>Rename {{ project.title }}</h1>
+                {{ wtf.quick_form(form, button_map={'submit': 'btn btn-primary'}) }}
+            </div>
+                
         </div>
         <div class='col-sm'></div>
         
     </div>
 </div>
+
+<style type='text/css'>
+    .form-content {
+        background-color: white;
+        padding: 40px 40px 40px 40px;
+        border-radius: 20px;
+        border: 1px solid lightgray;
+    }
+    body {
+        background: #74ebd5;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+
+</style>
 {% endblock %}

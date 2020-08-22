@@ -9,15 +9,32 @@
 	<div class='row'>
 		<div class='col-sm'></div>
 		<div class='col-sm-6'>
-			<p class='lead'>
-				Are you sure you want to delete {{ item.title }}?
-				This cannot be undone.
-			</p>
-			{{ wtf.quick_form(form, button_map={'submit':'btn btn-outline-danger'}) }}
+			<div class="form-content">
+				<p class='lead'>
+					Are you sure you want to delete {{ item.title }}?
+					This cannot be undone.
+				</p>
+				{{ wtf.quick_form(form, button_map={'submit':'btn btn-danger'}) }}
+			</div>	
 		</div>
 		<div class='col-sm'></div>
 	</div>
 </div>
+<style type='text/css'>
+    .form-content {
+        background-color: white;
+        padding: 40px 40px 40px 40px;
+		border-radius: 20px;
+		border: 1px solid lightgray;
+    }
+    body {
+        background: #FF416C;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #FF4B2B, #FF416C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+	}
+
+</style>
 
 
 {% endblock content %}

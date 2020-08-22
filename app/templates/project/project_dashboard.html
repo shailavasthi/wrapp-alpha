@@ -13,10 +13,10 @@
         <div class='col-sm'> 
         </div>
         <div class='col-sm-8'>
-          <div>
-            <h1 class='heading'>{{ project.title }}: Project Dashboard</h1>
+          <div class='title-content'>
+            <h2 class='heading'>{{ project.title }}: Project Dashboard</h2>
             <div class="dropdown ddown">
-                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-sm mb-2 btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Actions
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -39,7 +39,7 @@
               <p class="card-text">
                 Write your project's first draft, developing the ideas in your outline.
               </p>
-              <a href="{{ url_for("project.first_draft", proj_id=project.id) }}" class="btn btn-primary">Edit First Draft &raquo</a>
+              <a href="{{ url_for('project.first_draft', proj_id=project.id) }}" class="btn btn-primary">Edit First Draft &raquo</a>
               {% if project.stage == '2' %}<a href="{{ url_for('project.progress', proj_id=project.id) }}" class='im-done btn btn-sm btn-outline-success'>Mark as Complete &raquo</a>{% endif %}
             </div>
           </div>
@@ -50,7 +50,7 @@
                 Build an outline for your project from the ground up, and lay the foundation for 
                 your first draft.
               </p>
-              <a href="{{ url_for("project.outline", proj_id=project.id) }}" class="btn btn-primary">Edit Outline &raquo</a>
+              <a href="{{ url_for('project.outline', proj_id=project.id) }}" class="btn btn-primary">Edit Outline &raquo</a>
               {% if project.stage == '1' and project.num_sections > 0 %}<a href="{{ url_for('project.progress', proj_id=project.id) }}" class='im-done btn btn-sm btn-outline-success'>Mark as Complete &raquo</a>{% endif %}
             </div>
           </div>

@@ -40,4 +40,6 @@ class EditInfoForm(FlaskForm):
 		'Repeat Password', validators=[DataRequired(), EqualTo('password')])
 	submit = SubmitField('Save Info')
 
-	
+class DeleteAccountForm(FlaskForm):
+	password = PasswordField('Confirm your password', validators=[DataRequired()])
+	submit = SubmitField('Delete Account')

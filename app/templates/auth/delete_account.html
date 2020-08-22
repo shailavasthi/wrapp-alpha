@@ -2,13 +2,37 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
+
+
 <div class='container mt-5'>
 	<div class='row'>
 		<div class='col-sm'></div>
 		<div class='col-sm-6'>
-            <h1>Coming Soon</h1>
+			<div class="form-content">
+				<p class='lead'>
+					Are you sure you want to delete your account?
+					All of your work will be lost.
+				</p>
+				{{ wtf.quick_form(form, button_map={'submit':'btn btn-danger'}) }}
+			</div>
+			
 		</div>
 		<div class='col-sm'></div>
 	</div>
 </div>
-{% endblock %}
+<style type='text/css'>
+    .form-content {
+        background-color: white;
+        padding: 40px 40px 40px 40px;
+        border-radius: 20px
+    }
+    body {
+		background: #c31432;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #240b36, #c31432);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #240b36, #c31432); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+	}
+
+</style>
+
+{% endblock content %}
