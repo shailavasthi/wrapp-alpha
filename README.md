@@ -1,5 +1,7 @@
 # Wrapp
 
+Wrapp is hosted here: http://wrapp-alpha.herokuapp.com/
+
 ## Wrapp is a tool for efficient writing
 
 Wrapp is designed with a hollistic writing process in mind. It's a tool for writers who want to take their ideas and turn them into polished final drafts as efficiently as possible, without sacrificing quality.
