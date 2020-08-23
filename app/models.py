@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
 	first_name = db.Column(db.String)
 	last_name = db.Column(db.String)
 	password_hash = db.Column(db.String)
-	timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
+	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 	projects = db.relationship('Project', backref='author', cascade="all,delete", lazy='dynamic')
 
 	def set_password(self, password):

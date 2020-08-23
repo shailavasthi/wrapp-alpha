@@ -3,11 +3,13 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash
 
-from app.models import User
+from wtforms.fields import Label
+
+from app.models import User, Project
 from app import db
 
 from . import auth
-from .forms import LoginForm, RegistrationForm, EditInfoForm, DeleteAccountForm
+from .forms import LoginForm, RegistrationForm, EditInfoForm, DeleteAccountForm, EditEmailForm, EditPasswordForm
 
 @auth.route('/login', methods=['GET','POST'])
 def login():
@@ -59,26 +61,63 @@ def register():
 @auth.route('/account')
 @login_required
 def account():
-	return render_template('auth/account.html', title='Account', user=current_user)
+	num_projects = Project.query.filter_by(user_id=current_user.id).count()
+	return render_template('auth/account.html', title='Account', user=current_user, num_projects=num_projects)
 
-@auth.route('/edit_info', methods=['GET', 'POST'])
+@auth.route('/edit_info/<field>', methods=['GET', 'POST'])
 @login_required
-def edit_info():
+def edit_info(field):
 	form = EditInfoForm()
+	if field == 'first_name':
+		label = 'First Name'
+	elif field == 'last_name':
+		label = 'Last Name'
+	elif field == 'username':
+		label = 'Username'
+	else:
+		label = 'Info'
+	form.field.label = Label(field_id = "name", text = label)
 	if form.validate_on_submit():
 		user = current_user
-		user.first_name = form.first_name.data
-			
-		user.last_name = form.last_name.data
-			
-		
-		user.set_password(form.password.data)
+		setattr(user, field, form.field.data)
 
 		db.session.commit()
 		flash('Your information was saved.', 'success')
-		return redirect(url_for('auth.login'))
+		return redirect(url_for('auth.account'))
 
 	return render_template('auth/edit_info.html', title='Edit Info', user=current_user, form=form)
+
+@auth.route('/edit_email', methods=['GET', 'POST'])
+@login_required
+def edit_email():
+	form = EditEmailForm()
+	if form.validate_on_submit():
+		user = current_user
+		user.email = form.email.data
+
+		db.session.commit()
+		flash('Your information was saved.', 'success')
+		return redirect(url_for('auth.account'))
+
+	return render_template('auth/edit_info.html', title='Edit Info', user=current_user, form=form)
+
+@auth.route('/edit_password', methods=['GET', 'POST'])
+@login_required
+def edit_password():
+	form = EditPasswordForm()
+	if form.validate_on_submit():
+		user = current_user
+		if not user.check_password(form.old_password.data):
+			flash('Wrong Password', 'danger')
+			return redirect(url_for('auth.edit_password'))
+
+		user.set_password(form.password.data)
+		db.session.commit()
+		flash('Your information was saved.', 'success')
+		return redirect(url_for('auth.account'))
+
+	return render_template('auth/edit_info.html', title='Edit Info', user=current_user, form=form)
+
 
 @auth.route('/delete_account', methods=['GET', 'POST'])
 @login_required

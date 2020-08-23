@@ -1,19 +1,64 @@
 {% extends 'auth/auth_base.html' %}
 
 {% block content %}
+<link rel='stylesheet' href="{{ url_for('auth.static', filename='style.css') }}">
 
 <div class='container mt-5'>
 	<div class='row'>
 		<div class='col-sm'></div>
 		<div class='col-sm-6'>
-			<div class="form-container">
+			<div class="title-content">
 				<h1>{{user.first_name}}'s Account</h1>
 				<hr>
-				<a href="{{ url_for('auth.edit_info') }}" class="list-group-item list-group-item-action">Edit Info</a>
-				<a href="{{ url_for('auth.delete_account') }}" class="list-group-item list-group-item-action">Delete Account</a>
+				<h4>Account Info</h4>
+				<table class="table">
+					<tbody>
+						<tr>
+							<td>Account Created</td>
+							<td>{{ moment(user.timestamp).calendar() }}</td>
+						</tr>
+						<tr>
+							<td>Projects</td>
+							<td>{{ num_projects }}</td>
+						</tr>
+					  <tr>
+						<td>First Name</td>
+						<td>{{ user.first_name }}</td>
+						<td><a href="{{ url_for('auth.edit_info', field='first_name') }}">Edit</a></td>
+					  </tr>
+					  <tr>
+						<td>Last Name</td>
+						<td>{{ user.last_name }}</td>
+						<td><a href="{{ url_for('auth.edit_info', field='last_name') }}">Edit</a></td>
+					  </tr>
+					  <tr>
+						<td>Username</td>
+						<td>{{ user.username }}</td>
+						<td><a href="{{ url_for('auth.edit_info', field='username') }}">Edit</a></td>
+					  </tr>
+					  <tr>
+						<td>Email</td>
+						<td>{{ user.email }}</td>
+						<td><a href="{{ url_for('auth.edit_email') }}">Edit</a></td>
+					  </tr>
+					  <tr>
+						<td>Password</td>
+						<td>********</td>
+						<td><a href="{{ url_for('auth.edit_password') }}">Edit</a></td>
+					  </tr>
+					</tbody>
+				</table>
+				<hr>
+				<h4>Danger Zone</h4>
+				<a href="{{ url_for('auth.delete_account') }}" class="btn btn-danger mb-2 mt-2">Delete Account</a>
 			</div>
 		</div>
 		<div class='col-sm'></div>
 	</div>
 </div>
+<style type='text/css'>
+	body {
+		background: whitesmoke;
+	}
+</style>
 {% endblock %}
