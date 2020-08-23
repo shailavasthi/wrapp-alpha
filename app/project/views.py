@@ -314,7 +314,15 @@ def statistics(proj_id):
 		'Reading Time': str(int(len(words)/300))+' minutes ' + str(int((len(words)/300)*60 % 60)) + ' seconds'
 	}
 
-	return render_template('project/analyzer.html', project=project, sections=sections, hist=hist, bar=bar, title='Statistics', data=data, common_words=common_words)
+	return render_template('project/analyzer.html', 
+							project=project, 
+							sections=sections, 
+							hist=hist, 
+							bar=bar, 
+							title='Statistics', 
+							data=data, 
+							common_words=common_words,
+						)
 
 @project.route('/delete/type=<type>/id=<id>', methods=['GET', 'POST'])
 @login_required
