@@ -10,8 +10,9 @@
 		<div class='col-sm'></div>
 		<div class='col-sm-6'>
 			<div class="form-content">
+				<h1>Delete Project</h1>
 				<p class='lead'>
-					Are you sure you want to delete {{ item.title }}?
+					Are you sure you want to delete <strong>{{ item.title }}</strong>?
 					This cannot be undone.
 				</p>
 				{{ wtf.quick_form(form, button_map={'submit':'btn btn-danger'}) }}

@@ -28,7 +28,7 @@ def new_project():
 	form = NewProjectForm()
 
 	if form.validate_on_submit():
-		project = Project(title=form.title.data, user_id=current_user.id, stage=1, timestamp=datetime.now())
+		project = Project(title=form.title.data, user_id=current_user.id, stage=1, timestamp=datetime.utcnow())
 		db.session.add(project)
 		db.session.commit()
 
