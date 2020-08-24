@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, json
 from flask_login import current_user, login_required
 from .forms import NewProjectForm, DeleteForm, OutlineForm, EditSectionsForm, LineEditorForm, SectionTextEditorForm, RenameProjectForm
 from werkzeug.security import check_password_hash 
@@ -13,8 +13,10 @@ import re
 from collections import Counter
 import numpy as np
 
-from .analyzer import gen_hist, get_length_distribution, gen_bar
+from .analyzer import get_length_distribution
 from . import project
+
+import math
 
 @project.route('/dashboard')
 @login_required
@@ -285,21 +287,35 @@ def statistics(proj_id):
 	sentences = [sent for sent in doc.sents]
 	#all words
 	words = [token.text for token in doc if token.is_punct != True]
-	#minus stop words
-	stop_words = [token.text for token in doc if token.is_stop != True and token.is_punct != True]
 	#lemma
 	lemma = [token.lemma_ for token in doc if token.is_stop != True and token.is_punct != True]
 	#most common words
 	word_freq = Counter(lemma)
 	common_words = word_freq.most_common(10)
-
+	
 	sent_dist = get_length_distribution(sentences)
 	word_dist = get_length_distribution(words)
 	keyword_dist = get_length_distribution(lemma)
 
-	#creating images
-	hist = gen_hist(sent_dist)
-	bar = gen_bar(common_words)
+	def roundup(x):
+		return int(math.ceil(x / 10.0))*10
+
+	sent_hist, sent_bins = np.histogram(sent_dist, range=(0,roundup(sent_dist.max())))
+	sent_hist=sent_hist.tolist()
+	sent_bins=[str(round(label, 2)) for label in sent_bins.tolist()]
+	sent_hist = ['Frequency']+sent_hist
+
+	word_hist, word_bins = np.histogram(word_dist, range=(0,roundup(word_dist.max())))
+	word_hist=word_hist.tolist()
+	word_bins=[str(round(label, 2)) for label in word_bins.tolist()]
+	word_hist = ['Frequency']+word_hist
+
+	common_word_labels = []
+	common_word_counts = ['Count']
+
+	for label, count in common_words:
+		common_word_labels.append(label)
+		common_word_counts.append(count)
 
 	data = {
 		'Words': len(words),
@@ -317,11 +333,15 @@ def statistics(proj_id):
 	return render_template('project/analyzer.html', 
 							project=project, 
 							sections=sections, 
-							hist=hist, 
-							bar=bar, 
 							title='Statistics', 
 							data=data, 
 							common_words=common_words,
+							sent_hist=json.dumps(sent_hist),
+							sent_bins=json.dumps(sent_bins),
+							word_hist=json.dumps(word_hist),
+							word_bins=json.dumps(word_bins),
+							common_word_labels=json.dumps(common_word_labels),
+							common_word_counts=json.dumps(common_word_counts)
 						)
 
 @project.route('/delete/type=<type>/id=<id>', methods=['GET', 'POST'])

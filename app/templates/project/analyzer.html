@@ -4,6 +4,13 @@
 {% block content %}
 <link rel='stylesheet' href="{{ url_for('project.static', filename='style.css') }}">
 
+<!-- Load c3.css -->
+<link href="{{ url_for('project.static', filename='c3/c3.css') }}" rel="stylesheet">
+
+<!-- Load d3.js and c3.js -->
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="{{ url_for('project.static', filename='c3/c3.min.js') }}"></script>
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
@@ -33,10 +40,13 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <h3>Histogram of Sentence Length</h3>
-            <img class="img-fluid" src="{{ hist }}" id='histogram'>
-            <h3>Most Common Words</h3>
-            <img class="img-fluid" src="{{ bar }}" id='bar'>
+            <h3>Distribution of Sentence Length</h3>
+            
+            <div id="sentence-dist"></div>
+            <h3>Distribution of Word Length</h3>
+            <div id="word-dist"></div>
+            <h3>Most Common Significant Words</h3>
+            <div id="word-bar"></div>
             <table class="table">
                 <thead>
                     <th scope="col">Word</th>
@@ -57,4 +67,129 @@
 		<div class='col-sm'></div>
 	</div>
 </div>
+<script type='text/javascript'>
+    var sent_hist = JSON.parse({{sent_hist|tojson}})
+    var sent_bins = JSON.parse({{sent_bins|tojson}})
+
+    var word_hist = JSON.parse({{word_hist|tojson}})
+    var word_bins = JSON.parse({{word_bins|tojson}})
+
+    var bar_labels = JSON.parse({{common_word_labels|tojson}})
+    var bar_counts = JSON.parse({{common_word_counts|tojson}})
+
+    var chart = c3.generate({
+        bindto: '#sentence-dist',
+        data: {
+            columns: [
+                sent_hist
+            ],
+            types: {
+                Frequency: 'area-spline'
+            },
+            colors: {
+                Frequency: '#06b276'
+            }
+            
+        },
+        axis: {
+            x: {
+                type: 'category',
+                categories: sent_bins,
+                label: {
+                    text: 'Sentence Length',
+                    position: 'outer-center'
+                }
+            },
+            y: {
+                label: {
+                    text: 'Frequency',
+                    position: 'outer-middle'
+                }
+            }
+        },
+        legend: {
+            hide: true
+            //or hide: 'data1'
+            //or hide: ['data1', 'data2']
+        }
+    });
+    var chart_word = c3.generate({
+        bindto: '#word-dist',
+        data: {
+            columns: [
+                word_hist
+            ],
+            types: {
+                Frequency: 'area-spline'
+            },
+            colors: {
+                Frequency: '#06b276'
+            }
+            
+        },
+        axis: {
+            x: {
+                type: 'category',
+                categories: word_bins,
+                label: {
+                    text: 'Word Length',
+                    position: 'outer-center'
+                }
+            },
+            y: {
+                label: {
+                    text: 'Frequency',
+                    position: 'outer-middle'
+                }
+            }
+        },
+        legend: {
+            hide: true
+            //or hide: 'data1'
+            //or hide: ['data1', 'data2']
+        }
+    });
+    var chart2 = c3.generate({
+        bindto: '#word-bar',
+        data: {
+            columns: [
+                bar_counts,
+            ],
+            type: 'bar',
+            colors: {
+                Count: 'rgba(6, 178, 118, 0.5)'
+            }
+        },
+        bar: {
+            width: {
+                ratio: .5 // this makes bar width 50% of length between ticks
+            }
+            // or
+            //width: 100 // this makes bar width 100px
+        },
+        axis: {
+            x: {
+                type: 'category',
+                categories: bar_labels,
+                label: {
+                    text: 'Word',
+                    position: 'outer-middle'
+                }
+            },
+            y: {
+                label: {
+                    text: 'Count',
+                    position: 'outer-center'
+                }
+            },
+            rotated: true
+        },
+        legend: {
+            hide: true
+            //or hide: 'data1'
+            //or hide: ['data1', 'data2']
+        }
+    });
+    
+</script>
 {% endblock content %}
