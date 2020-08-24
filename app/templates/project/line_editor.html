@@ -37,6 +37,7 @@
           </div>
           <form action='' method='post'>
             {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
             {% for sentence, field in combo %}
                 <div class='form-group'>
                     <textarea class='form-control sentence-editor' name='{{field.name}}' rows='5'>{{sentence|safe}}</textarea>

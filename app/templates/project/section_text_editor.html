@@ -22,6 +22,7 @@
           <div>
             <form action='' method='post'>
               {{ form.hidden_tag() }}
+              {{ form.csrf_token }}
               <div class='form-group'>
                   <textarea name='text' class='form-control editor'>{{ section.text }}</textarea>
               </div>

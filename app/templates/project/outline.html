@@ -27,6 +27,7 @@
             <div class='title-content'> 
             <form action='' method='POST'>
 				{{ form.hidden_tag() }}
+				{{ form.csrf_token }}
 				
 				<h4>Instructions</h4>
 				<p>

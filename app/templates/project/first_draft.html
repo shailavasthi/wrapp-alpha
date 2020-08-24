@@ -50,6 +50,7 @@
           
             <form action='' method='POST'>
                 {{ form.hidden_tag() }}
+                {{ form.csrf_token }}
                 
                 {% for key, value in record.items() %}
                     <div class='form-group page page-{{key}}'>
