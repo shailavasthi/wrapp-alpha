@@ -64,7 +64,7 @@ def account():
 	num_projects = Project.query.filter_by(user_id=current_user.id).count()
 	return render_template('auth/account.html', title='Account', user=current_user, num_projects=num_projects)
 
-@auth.route('/edit_info/<field>', methods=['GET', 'POST'])
+@auth.route('/edit_info/?field=<field>', methods=['GET', 'POST'])
 @login_required
 def edit_info(field):
 	form = EditInfoForm()

@@ -39,7 +39,7 @@ def new_project():
 
 	return render_template('project/new_project.html', form=form, title='New Project')
 
-@project.route('/project_dashboard/<proj_id>', methods=['GET','POST'])
+@project.route('/project_dashboard/?project_id=<proj_id>', methods=['GET','POST'])
 @login_required
 def project_dashboard(proj_id):
 	project = Project.query.get(int(proj_id))
@@ -47,7 +47,7 @@ def project_dashboard(proj_id):
 		return redirect(url_for('project.dashboard'))
 	return render_template('project/project_dashboard.html', project=project, title='{}'.format(project.title))
 
-@project.route('/progress/<proj_id>')
+@project.route('/progress/?project_id=<proj_id>')
 @login_required
 def progress(proj_id):
 	project = Project.query.get(int(proj_id))
@@ -59,7 +59,7 @@ def progress(proj_id):
 	db.session.commit()
 	return redirect(url_for('project.project_dashboard', proj_id=project.id))
 
-@project.route('rename_project/<proj_id>', methods=['GET', 'POST'])
+@project.route('rename_project/?project_id=<proj_id>', methods=['GET', 'POST'])
 @login_required
 def rename_project(proj_id):
 	project = Project.query.get(int(proj_id))
@@ -75,7 +75,7 @@ def rename_project(proj_id):
 		return redirect(url_for('project.project_dashboard', proj_id=project.id))
 	return render_template('project/rename_project.html', project=project, form=form)
 
-@project.route('/outline/<proj_id>', methods=['GET','POST'])
+@project.route('/outline/?project_id=<proj_id>', methods=['GET','POST'])
 @login_required
 def outline(proj_id):
 	project = Project.query.get(int(proj_id))
@@ -126,7 +126,7 @@ def outline(proj_id):
 							form=form,
 							max_sections=15)
 
-@project.route('/first_draft/<proj_id>', methods=['GET', 'POST'])
+@project.route('/first_draft/?project_id=<proj_id>', methods=['GET', 'POST'])
 @login_required
 def first_draft(proj_id):
 	project = Project.query.get(int(proj_id))
@@ -168,7 +168,7 @@ def first_draft(proj_id):
 		title='First Draft: {}'.format(project.title)
 	)
 
-@project.route('/draft_editor/<proj_id>', methods=['GET', 'POST'])
+@project.route('/draft_editor/?project_id=<proj_id>', methods=['GET', 'POST'])
 @login_required
 def draft_editor(proj_id):
 	project = Project.query.get(int(proj_id))
@@ -178,7 +178,7 @@ def draft_editor(proj_id):
 
 	return render_template('project/draft_editor.html', title='Draft Editor', project=project, sections=sections)
 
-@project.route('/line_editor/<proj_id>/<section_id>', methods=['GET', 'POST'])
+@project.route('/line_editor/?project_id=<proj_id>&section_id=<section_id>', methods=['GET', 'POST'])
 @login_required
 def line_editor(proj_id, section_id):
 	project = Project.query.get(int(proj_id))
@@ -226,7 +226,7 @@ def line_editor(proj_id, section_id):
 							combo=combo,
 							form=form)
 	
-@project.route('/section_text_editor/<proj_id>/<section_id>', methods=['GET', 'POST'])
+@project.route('/section_text_editor/?project_id=<proj_id>&section_id=<section_id>', methods=['GET', 'POST'])
 @login_required
 def section_text_editor(proj_id, section_id):
 	project = Project.query.get(int(proj_id))
@@ -252,7 +252,7 @@ def section_text_editor(proj_id, section_id):
 							project=project, 
 							form=form)
 
-@project.route('/draft_viewer/<proj_id>')
+@project.route('/draft_viewer/?project_id=<proj_id>')
 @login_required
 def draft_viewer(proj_id):
 	project = Project.query.get(int(proj_id))
@@ -263,7 +263,7 @@ def draft_viewer(proj_id):
 
 	return render_template('project/draft_viewer.html', project=project, sections=sections)
 	
-@project.route('/statistics/<proj_id>')
+@project.route('/statistics/?project_id=<proj_id>')
 @login_required
 def statistics(proj_id):
 	project = Project.query.get(int(proj_id))
@@ -350,7 +350,7 @@ def statistics(proj_id):
 							common_word_counts=json.dumps(common_word_counts)
 						)
 
-@project.route('/delete/type=<type>/id=<id>', methods=['GET', 'POST'])
+@project.route('/delete/?type=<type>&id=<id>', methods=['GET', 'POST'])
 @login_required
 def delete(type, id):
 	if type == 'project':
