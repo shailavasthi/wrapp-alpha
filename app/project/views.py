@@ -14,7 +14,7 @@ from collections import Counter
 import numpy as np
 import textstat
 
-from .analyzer import get_length_distribution
+from .analyzer import get_length_distribution, get_reading_level
 from . import project
 
 import math
@@ -320,27 +320,12 @@ def statistics(proj_id):
 
 	flesch_score = textstat.flesch_reading_ease(fulltext)
 	
-	if 90 < flesch_score:
-		reading_level = '5th Grade'
-	elif 80 < flesch_score <= 90:
-		reading_level = '6th Grade'
-	elif 70 < flesch_score <= 80:
-		reading_level = '7th Grade'
-	elif 60 < flesch_score <= 70:
-		reading_level = '8th & 9th Grade'
-	elif 50 < flesch_score <= 60:
-		reading_level = '10th to 12th Grade'
-	elif 30 < flesch_score <= 50:
-		reading_level = 'College Student'
-	elif 10 < flesch_score <= 30:
-		reading_level = 'College Graduate'
-	else: 
-		reading_level = 'Professional'
+	reading_level = get_reading_level(flesch_score)
 	
 	data = {
 		'Words': len(words),
-		'Average Word Length (chars)': round(word_dist.mean(),2),
-		'Longest Word (chars)': np.max(word_dist),
+		'Average Word Length (letters)': round(word_dist.mean(),2),
+		'Longest Word (letters)': np.max(word_dist),
 		'Sentences': len(sentences),
 		'Average Sentence Length (words)': round(sent_dist.mean()),
 		'Longest Sentence (words)': np.max(sent_dist),

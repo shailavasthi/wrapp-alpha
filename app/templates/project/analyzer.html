@@ -26,7 +26,7 @@
 		<div class='col-sm-6'>
             <div class="title-content mb-5">
 
-            <h1 class='text-center'>{{project.title}}: Statistics</h1>
+            <h2 class='text-center'>{{project.title}}: Statistics</h2>
             <hr>
             
             <h3>Statistics</h3>
@@ -96,7 +96,7 @@
                 type: 'category',
                 categories: sent_bins,
                 label: {
-                    text: 'Sentence Length',
+                    text: 'Sentence Length (Words)',
                     position: 'outer-center'
                 }
             },
@@ -132,14 +132,18 @@
                 type: 'category',
                 categories: word_bins,
                 label: {
-                    text: 'Word Length',
+                    text: 'Word Length (Characters)',
                     position: 'outer-center'
                 }
             },
             y: {
                 label: {
-                    text: 'Frequency',
+                    text: 'Frequency (Logarithmic Scale)',
                     position: 'outer-middle'
+                },
+                type: 'log',
+                tick: {
+                    format: d3.format("1.0f")
                 }
             }
         },
