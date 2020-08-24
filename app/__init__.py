@@ -13,6 +13,7 @@ login.login_view = 'auth.login'
 login.login_message = 'Please log in to access this page.'
 bootstrap = Bootstrap()
 moment = Moment()
+max_sections = 15
 
 def create_app():
 	app = Flask(__name__)

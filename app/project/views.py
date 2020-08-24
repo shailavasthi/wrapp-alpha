@@ -4,7 +4,7 @@ from .forms import NewProjectForm, DeleteForm, OutlineForm, EditSectionsForm, Li
 from werkzeug.security import check_password_hash 
 from app.models import User, Project, Section
 from wtforms import TextAreaField, StringField
-from app import db
+from app import db, max_sections
 from datetime import datetime
 
 # for nlp
@@ -125,7 +125,7 @@ def outline(proj_id):
 							project=project, 
 							title='Outline: {}'.format(project.title), 
 							form=form,
-							max_sections=15)
+							max_sections=max_sections)
 
 @project.route('/first_draft/<proj_id>', methods=['GET', 'POST'])
 @login_required
@@ -186,7 +186,7 @@ def new_section(proj_id):
 	if current_user.id != project.user_id:
 		return redirect(url_for('project.dashboard'))
 	
-	if project.sections.count() <= 15:
+	if project.sections.count() <= max_sections:
 		new_section_order = Section.query.filter_by(project_id=project.id).order_by(Section.order.desc()).first().order + 1
 		section = Section(
 			project_id=project.id,
