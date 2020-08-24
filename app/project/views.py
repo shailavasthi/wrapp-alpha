@@ -12,6 +12,7 @@ import spacy
 import re
 from collections import Counter
 import numpy as np
+import textstat
 
 from .analyzer import get_length_distribution
 from . import project
@@ -279,9 +280,9 @@ def statistics(proj_id):
 	fulltext = ''
 	for section in project.sections:
 		fulltext += section.text + ' '
-
+	fulltext = cleanhtml(fulltext)
 	nlp = spacy.load('en_core_web_sm')
-	doc = nlp(cleanhtml(fulltext))
+	doc = nlp(fulltext)
 
 	#sentences
 	sentences = [sent for sent in doc.sents]
@@ -317,6 +318,25 @@ def statistics(proj_id):
 		common_word_labels.append(label)
 		common_word_counts.append(count)
 
+	flesch_score = textstat.flesch_reading_ease(fulltext)
+	
+	if 90 < flesch_score:
+		reading_level = '5th Grade'
+	elif 80 < flesch_score <= 90:
+		reading_level = '6th Grade'
+	elif 70 < flesch_score <= 80:
+		reading_level = '7th Grade'
+	elif 60 < flesch_score <= 70:
+		reading_level = '8th & 9th Grade'
+	elif 50 < flesch_score <= 60:
+		reading_level = '10th to 12th Grade'
+	elif 30 < flesch_score <= 50:
+		reading_level = 'College Student'
+	elif 10 < flesch_score <= 30:
+		reading_level = 'College Graduate'
+	else: 
+		reading_level = 'Professional'
+	
 	data = {
 		'Words': len(words),
 		'Average Word Length (chars)': round(word_dist.mean(),2),
@@ -327,7 +347,8 @@ def statistics(proj_id):
 		'Shortest Sentence (words)': np.min(sent_dist),
 		'Double Spaced Pages': round(len(words)/250,2),
 		'Single Spaced Pages': round(len(words)/500,2),
-		'Reading Time': str(int(len(words)/300))+' minutes ' + str(int((len(words)/300)*60 % 60)) + ' seconds'
+		'Reading Time': str(int(len(words)/300))+' minutes ' + str(int((len(words)/300)*60 % 60)) + ' seconds',
+		'Reading Level': reading_level,
 	}
 
 	return render_template('project/analyzer.html', 
