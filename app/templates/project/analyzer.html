@@ -13,69 +13,71 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
-      <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
-      <li class="breadcrumb-item"><a href="{{ url_for('project.draft_editor', proj_id=project.id, version=1) }}">Draft Editor</a></li>
-      <li class="breadcrumb-item active" aria-current='page'>Statistics</li>
+        <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a
+                href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('project.draft_editor', proj_id=project.id, version=1) }}">Draft
+                Editor</a></li>
+        <li class="breadcrumb-item active" aria-current='page'>Statistics</li>
     </ol>
-  </nav>
+</nav>
 
 <div class='container mt-5'>
-	<div class='row'>
-		<div class='col-sm'></div>
-		<div class='col-sm-6'>
+    <div class='row'>
+        <div class='col-sm'></div>
+        <div class='col-sm-6'>
             <div class="title-content mb-5">
 
-            <h2 class='text-center'>{{project.title}}: Statistics</h2>
-            <hr>
-            
-            <h3>Statistics</h3>
-            <table class="table">
-                <tbody>
-                    {% for key, value in data.items() %}
-                    <tr>
-                        <td>{{key}}</td>
-                        <td>{{value}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <h3>Distribution of Sentence Length</h3>
-            
-            <div id="sentence-dist"></div>
-            <h3>Distribution of Word Length</h3>
-            <div id="word-dist"></div>
-            <h3>Most Common Significant Words</h3>
-            <div id="word-bar"></div>
-            <table class="table">
-                <thead>
-                    <th scope="col">Word</th>
-                    <th scope="col">Count</th>
-                </thead>
-                <tbody>
-                    {% for word, count in common_words %}
-                    <tr>
-                        <td>{{word}}</td>
-                        <td>{{count}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            
+                <h2 class='text-center'>{{project.title}}: Statistics</h2>
+                <hr>
+
+                <h3>Statistics</h3>
+                <table class="table">
+                    <tbody>
+                        {% for key, value in data.items() %}
+                        <tr>
+                            <td>{{key}}</td>
+                            <td>{{value}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h3>Distribution of Sentence Length</h3>
+
+                <div id="sentence-dist"></div>
+                <h3>Distribution of Word Length</h3>
+                <div id="word-dist"></div>
+                <h3>Most Common Significant Words</h3>
+                <div id="word-bar"></div>
+                <table class="table">
+                    <thead>
+                        <th scope="col">Word</th>
+                        <th scope="col">Count</th>
+                    </thead>
+                    <tbody>
+                        {% for word, count in common_words %}
+                        <tr>
+                            <td>{{word}}</td>
+                            <td>{{count}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
         </div>
-		</div>
-		<div class='col-sm'></div>
-	</div>
+        <div class='col-sm'></div>
+    </div>
 </div>
 <script type='text/javascript'>
-    var sent_hist = JSON.parse({{sent_hist|tojson}})
-    var sent_bins = JSON.parse({{sent_bins|tojson}})
+    var sent_hist = JSON.parse({{ sent_hist| tojson}})
+    var sent_bins = JSON.parse({{ sent_bins| tojson}})
 
-    var word_hist = JSON.parse({{word_hist|tojson}})
-    var word_bins = JSON.parse({{word_bins|tojson}})
+    var word_hist = JSON.parse({{ word_hist| tojson}})
+    var word_bins = JSON.parse({{ word_bins| tojson}})
 
-    var bar_labels = JSON.parse({{common_word_labels|tojson}})
-    var bar_counts = JSON.parse({{common_word_counts|tojson}})
+    var bar_labels = JSON.parse({{ common_word_labels| tojson}})
+    var bar_counts = JSON.parse({{ common_word_counts| tojson}})
 
     var chart = c3.generate({
         bindto: '#sentence-dist',
@@ -89,7 +91,7 @@
             colors: {
                 Frequency: '#06b276'
             }
-            
+
         },
         axis: {
             x: {
@@ -125,7 +127,7 @@
             colors: {
                 Frequency: '#06b276'
             }
-            
+
         },
         axis: {
             x: {
@@ -194,6 +196,6 @@
             //or hide: ['data1', 'data2']
         }
     });
-    
+
 </script>
 {% endblock content %}

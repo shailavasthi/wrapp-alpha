@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<!-- Required meta tags -->
+  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
   <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
   <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
   <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
@@ -15,92 +17,103 @@
 
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="https://cdn.tiny.cloud/1/kqj0f5ldh0xkkvbo1c1ocjceqntxmeus40lm6oigllpxjtky/tinymce/5/tinymce.min.js" referrerpolicy="origin"/></script>
+  <script src="https://cdn.tiny.cloud/1/kqj0f5ldh0xkkvbo1c1ocjceqntxmeus40lm6oigllpxjtky/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin" />
+  </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <script>
     tinymce.init({
       selector: 'textarea.editor',
-      menubar: false,
+      menubar: false, 
       height: 500,
       plugins: [
-      'advlist autolink link lists charmap print preview hr anchor pagebreak',
-      'searchreplace wordcount visualblocks visualchars fullscreen nonbreaking',
-      'template paste help fullscreen'
-    ],
+        'advlist autolink link lists charmap print preview hr anchor pagebreak',
+        'searchreplace wordcount visualblocks visualchars fullscreen nonbreaking',
+        'template paste help fullscreen'
+      ],
       toolbar: 'fullscreen | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
-      'bullist numlist outdent indent | link charmap| print preview fullpage | ' +
-      'forecolor backcolor | help',
+        'bullist numlist outdent indent | link charmap| print preview fullpage | ' +
+        'forecolor backcolor | help',
     });
   </script>
   {{ moment.include_jquery() }}
   {{ moment.include_moment(sri=False) }}
-  
-  
-	<title>{% block title %} {{ title }} {% endblock %}</title>
+
+
+  <title>{% block title %} {{ title }} {% endblock %}</title>
 </head>
+
 <body>
 
-    {% if current_user.is_authenticated %}
-    {% set action = 'auth.logout' %}
-    {% set action_label = 'Log Out' %}
-    {% else %}
-    {% set action = 'auth.login' %}
-    {% set action_label = 'Sign In' %}
-    {% endif %}
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">Wrapp</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="nav navbar-nav ml-auto">
-            {% if current_user.is_authenticated %}
-            <li class="nav-item" id="projects_nav">
-              <a class="nav-link" href="{{ url_for('project.dashboard') }}">Projects</a>
-            </li>
-            <li class='nav-item' id="account_nav">
-              <a class="nav-link" href="{{ url_for('auth.account') }}">My Account</a>
-            </li>
-            {% endif %}
-            <li>
-              <a class="ml-auto mr-2 nav-link" href="{{ url_for(action) }}">{{ action_label }}</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+  {% if current_user.is_authenticated %}
+  {% set action = 'auth.logout' %}
+  {% set action_label = 'Log Out' %}
+  {% else %}
+  {% set action = 'auth.login' %}
+  {% set action_label = 'Sign In' %}
+  {% endif %}
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Wrapp</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="nav navbar-nav ml-auto">
+        {% if current_user.is_authenticated %}
+        <li class="nav-item" id="projects_nav">
+          <a class="nav-link" href="{{ url_for('project.dashboard') }}">Projects</a>
+        </li>
+        <li class='nav-item' id="account_nav">
+          <a class="nav-link" href="{{ url_for('auth.account') }}">My Account</a>
+        </li>
+        {% endif %}
+        <li>
+          <a class="ml-auto mr-2 nav-link" href="{{ url_for(action) }}">{{ action_label }}</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
   </div>
 
   <div class=''>
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-            <div id='alert' class='alert alert-{{ category }} alert-dismissible fade show mb-0' role='alert'>
-              {{ message }}
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+    {% if messages %}
+    {% for category, message in messages %}
+    <div id='alert' class='alert alert-{{ category }} alert-dismissible fade show mb-0' role='alert'>
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
 
-            {% endfor %}
-        {% endif %}
+    {% endfor %}
+    {% endif %}
     {% endwith %}
   </div>
-  
 
-	{% block content %}
+
+  {% block content %}
   {% endblock %}
   {% block script %}
   {% endblock %}
 
   <script type='text/javascript'>
-    $("#alert").fadeTo(2000, 500).slideUp(200, function(){
+    $("#alert").fadeTo(2000, 500).slideUp(200, function () {
       $("#alert").slideUp(500);
-  });
+    });
   </script>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>

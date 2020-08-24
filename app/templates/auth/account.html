@@ -23,31 +23,31 @@
 							<td>{{ num_projects }}</td>
 							<td></td>
 						</tr>
-					  <tr>
-						<td>First Name</td>
-						<td>{{ user.first_name }}</td>
-						<td><a href="{{ url_for('auth.edit_info', field='first_name') }}">Edit</a></td>
-					  </tr>
-					  <tr>
-						<td>Last Name</td>
-						<td>{{ user.last_name }}</td>
-						<td><a href="{{ url_for('auth.edit_info', field='last_name') }}">Edit</a></td>
-					  </tr>
-					  <tr>
-						<td>Username</td>
-						<td>{{ user.username }}</td>
-						<td><a href="{{ url_for('auth.edit_info', field='username') }}">Edit</a></td>
-					  </tr>
-					  <tr>
-						<td>Email</td>
-						<td>{{ user.email }}</td>
-						<td><a href="{{ url_for('auth.edit_email') }}">Edit</a></td>
-					  </tr>
-					  <tr>
-						<td>Password</td>
-						<td>********</td>
-						<td><a href="{{ url_for('auth.edit_password') }}">Edit</a></td>
-					  </tr>
+						<tr>
+							<td>First Name</td>
+							<td>{{ user.first_name }}</td>
+							<td><a href="{{ url_for('auth.edit_info', field='first_name') }}">Edit</a></td>
+						</tr>
+						<tr>
+							<td>Last Name</td>
+							<td>{{ user.last_name }}</td>
+							<td><a href="{{ url_for('auth.edit_info', field='last_name') }}">Edit</a></td>
+						</tr>
+						<tr>
+							<td>Username</td>
+							<td>{{ user.username }}</td>
+							<td><a href="{{ url_for('auth.edit_info', field='username') }}">Edit</a></td>
+						</tr>
+						<tr>
+							<td>Email</td>
+							<td>{{ user.email }}</td>
+							<td><a href="{{ url_for('auth.edit_email') }}">Edit</a></td>
+						</tr>
+						<tr>
+							<td>Password</td>
+							<td>********</td>
+							<td><a href="{{ url_for('auth.edit_password') }}">Edit</a></td>
+						</tr>
 					</tbody>
 				</table>
 				<hr>

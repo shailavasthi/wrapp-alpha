@@ -5,9 +5,10 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
-      <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
-      <li class="breadcrumb-item active" aria-current='page'>First Draft</li>
+        <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a
+                href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
+        <li class="breadcrumb-item active" aria-current='page'>First Draft</li>
     </ol>
 </nav>
 <div class='container mt-5'>
@@ -21,45 +22,48 @@
         <div class="col-sm"></div>
     </div>
     <hr>
-    
-            
+
+
     <div class='row'>
         <div class='col-sm'>
             <div class="title-content">
                 <h6>Section Navigator</h6>
                 <div id="0" class='section-nav section-nav-0'>Directions</div>
                 {% for key, value in record.items() %}
-                    <div id="{{key}}" class='section-nav section-nav-{{key}}'>{{ value }}</div>
+                <div id="{{key}}" class='section-nav section-nav-{{key}}'>{{ value }}</div>
                 {% endfor %}<br>
-                <button class='btn btn-secondary' data-toggle="modal" data-target="#exampleModal">Outline</button>            
-            </div>   
+                <button class='btn btn-secondary' data-toggle="modal" data-target="#exampleModal">Outline</button>
+            </div>
         </div>
         <div class='col-sm-8'>
             <div class='title-content'>
-            <div class="page page-0">
-                <h4>Directions</h4>
-                <p>
-                    In this section, you will write your first draft. Use the navigator to switch between your sections.
-                    You can access your outline by clicking the "Outline" button below the navigator.
-                </p>
-                <p>
-                    While writing your first draft, don't worry too much about grammar or making your writing sound good.
-                    You can work on that during the editing phase. 
-                </p>
-            </div>
-          
-            <form action='' method='POST'>
-                {{ form.hidden_tag() }}
-                {{ form.csrf_token }}
-                
-                {% for key, value in record.items() %}
+                <div class="page page-0">
+                    <h4>Directions</h4>
+                    <p>
+                        In this section, you will write your first draft. Use the navigator to switch between your
+                        sections.
+                        You can access your outline by clicking the "Outline" button below the navigator.
+                    </p>
+                    <p>
+                        While writing your first draft, don't worry too much about grammar or making your writing sound
+                        good.
+                        You can work on that during the editing phase.
+                    </p>
+                </div>
+
+                <form action='' method='POST'>
+                    {{ form.hidden_tag() }}
+                    {{ form.csrf_token }}
+
+                    {% for key, value in record.items() %}
                     <div class='form-group page page-{{key}}'>
                         <p class='lead'>{{ value }}</p>
-                        <textarea name="{{ key }}" class="editor">{{ sections.filter_by(order=key).first().text }}</textarea>
+                        <textarea name="{{ key }}"
+                            class="editor">{{ sections.filter_by(order=key).first().text }}</textarea>
                     </div>
-                {% endfor %}
-                {{form.submit(class='btn btn-primary mb-2')}}
-            </form> 
+                    {% endfor %}
+                    {{form.submit(class='btn btn-primary mb-2')}}
+                </form>
             </div>
         </div>
         <div class='col-sm'></div>
@@ -73,7 +77,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Your Work</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -96,7 +100,7 @@
                 <h6>Sources</h6>
                 {{ project.sources|safe }}
                 {% if project.outline=='' %}<p>You haven't written anything here yet</p>{% endif %}
-                <hr>    
+                <hr>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -105,10 +109,10 @@
     </div>
 </div>
 <script type="text/javascript">
-	//var current_page = 0
-	$( '.page' ).hide();
-	$( '.page-0' ).show();
-    $( '.section-nav-0' ).css({"color":"#0275d8","text-decoration":"underline"})
+    //var current_page = 0
+    $('.page').hide();
+    $('.page-0').show();
+    $('.section-nav-0').css({ "color": "#0275d8", "text-decoration": "underline" })
 
     $('form input').keydown(function (e) {
         if (e.keyCode == 13) {
@@ -117,14 +121,14 @@
         }
     });
 
-    $( '.section-nav ').click(function() {
-		new_section = $( this ).attr('id');
-		$( '.page' ).hide();
-		$( '.page-'+new_section ).show();
-        $( '.section-nav' ).css({"color":"black","text-decoration":"none"})
-        $( '.section-nav-'+new_section ).css({"color":"#0275d8","text-decoration":"underline"})
+    $('.section-nav ').click(function () {
+        new_section = $(this).attr('id');
+        $('.page').hide();
+        $('.page-' + new_section).show();
+        $('.section-nav').css({ "color": "black", "text-decoration": "none" })
+        $('.section-nav-' + new_section).css({ "color": "#0275d8", "text-decoration": "underline" })
 
-	});
+    });
 
 </script>
 {% endblock %}

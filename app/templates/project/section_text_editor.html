@@ -6,38 +6,40 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
-    <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ url_for('project.draft_editor', proj_id=project.id) }}">Draft Editor</a></li>
+    <li class="breadcrumb-item"><a
+        href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('project.draft_editor', proj_id=project.id) }}">Draft Editor</a>
+    </li>
     <li class="breadcrumb-item active" aria-current='page'>Section Text Editor</li>
   </ol>
 </nav>
 <div class='container mt-5'>
-    <div class='row'>
-        <div class='col-sm'></div>
-        <div class='col-sm-8'>  
-          <div class="title-content mb-4">
-            <h2 class='heading'>{{ project.title }}: Section {{section.order}} Text Editor</h2>
+  <div class='row'>
+    <div class='col-sm'></div>
+    <div class='col-sm-8'>
+      <div class="title-content mb-4">
+        <h2 class='heading'>{{ project.title }}: Section {{section.order}} Text Editor</h2>
+      </div>
+
+      <div>
+        <form action='' method='post'>
+          {{ form.hidden_tag() }}
+          {{ form.csrf_token }}
+          <div class="form-group">
+            {{ form.title.label }}
+            {{ form.title(value=section.title, class='form-control') }}
           </div>
-          
-          <div>
-            <form action='' method='post'>
-              {{ form.hidden_tag() }}
-              {{ form.csrf_token }}
-              <div class="form-group">
-                {{ form.title.label }}
-                {{ form.title(value=section.title, class='form-control') }}
-              </div>
-              <div class='form-group'>
-                  <textarea name='text' class='form-control editor'>{{ section.text }}</textarea>
-              </div>
-              <div class='form-group'>
-                  {{ form.submit(class='btn btn-primary') }}
-              </div>
-            </form>
+          <div class='form-group'>
+            <textarea name='text' class='form-control editor'>{{ section.text }}</textarea>
           </div>
-          
-        </div>
-        <div class='col-sm'></div>
+          <div class='form-group'>
+            {{ form.submit(class='btn btn-primary') }}
+          </div>
+        </form>
+      </div>
+
     </div>
-</div>  
+    <div class='col-sm'></div>
+  </div>
+</div>
 {% endblock %}

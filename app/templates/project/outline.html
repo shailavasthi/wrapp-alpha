@@ -7,33 +7,36 @@
 <link rel='stylesheet' href="{{ url_for('project.static', filename='style.css') }}">
 
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
-      <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{project.title}}</a></li>
-      <li class="breadcrumb-item active" aria-current='page'>Outline</li>
-    </ol>
-  </nav>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
+		<li class="breadcrumb-item"><a
+				href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{project.title}}</a></li>
+		<li class="breadcrumb-item active" aria-current='page'>Outline</li>
+	</ol>
+</nav>
 <div class='container mt-5'>
-	
-    <div class='row'>
-        <div class='col-sm'>
-			
-			
+
+	<div class='row'>
+		<div class='col-sm'>
+
+
 		</div>
-        <div class='col-sm-8'>
-			<div class="title-content"><h2 class=''>{{ project.title }}: Outline</h2></div>
-	
-    		<hr>
-            <div class='title-content'> 
-            <form action='' method='POST'>
-				{{ form.hidden_tag() }}
-				{{ form.csrf_token }}
-				
-				<h4>Instructions</h4>
-				<p>
-					In this section, you're going to develop an outline for your project.
-				</p>
-                
+		<div class='col-sm-8'>
+			<div class="title-content">
+				<h2 class=''>{{ project.title }}: Outline</h2>
+			</div>
+
+			<hr>
+			<div class='title-content'>
+				<form action='' method='POST'>
+					{{ form.hidden_tag() }}
+					{{ form.csrf_token }}
+
+					<h4>Instructions</h4>
+					<p>
+						In this section, you're going to develop an outline for your project.
+					</p>
+
 					<h4 id='sources'>Sources</h4>
 					<p>
 						It's recommended that you do any research for your project before you begin writing. If you plan
@@ -44,99 +47,111 @@
 						<li>Any quotes or page numbers that you want to reference</li>
 						<li>Your own notes on the source</li>
 					</ul>
-				
+
 					<div class='form-group'>
-						<textarea class="form-control editor" name="sources" rows=20>{{ project.sources }}</textarea><br>
-		       		</div>
-		       		
-				
-				
+						<textarea class="form-control editor" name="sources"
+							rows=20>{{ project.sources }}</textarea><br>
+					</div>
+
+
+
 					<h4 id='question'>Question</h4>
 					<p>
 						Write the main quesion that you want your project to answer. This may be a research question, an
 						essay prompt, or a question that you come up with on your own. Writing with a question in mind
 						will help keep your writing directed and focused.
 					</p>
-				
+
 					<div class='form-group'>
-			            <textarea class="form-control" name="question" rows=5>{{ project.question }}</textarea><br>   
+						<textarea class="form-control" name="question" rows=5>{{ project.question }}</textarea><br>
 					</div>
-				
-				
+
+
 					<h4 id='freewrite'>Free Write</h4>
 					<p>
-						Write continuously about your topic for 10 to 20 minutes (it may help you to set a timer). Don't worry
-						about grammar, style, or editing what you write. For now, just focus on getting all of your 
+						Write continuously about your topic for 10 to 20 minutes (it may help you to set a timer). Don't
+						worry
+						about grammar, style, or editing what you write. For now, just focus on getting all of your
 						ideas onto paper. Feel free to include material from your sources in your free write.
 					</p>
-				
+
 					<div class='form-group'>
-						<textarea class="form-control editor" name="freewrite" rows=20>{{ project.freewrite }}</textarea> <br>
-		       		</div>
-		       		
-				
-				
-				<div class="form-group">
-                    <h4 id='thesis'>Thesis</h4>
-                    <p>
-						Now that you have an idea of what you're going to write about, write at least one sentence that 
-						answers the question you came up with earlier. You can think of this as your thesis, or "main idea."
-                    </p>
-					<textarea name='thesis' class='form-control'>{{ project.thesis }}</textarea><br>
-					<h4 id='sections'>Outline</h4>
-                    <p>
-						It's time to write your outline. First, divide your project into sections. Each section should explore a 
-						single idea, and your sections should be ordered logically so that they develop your thesis.
-						Depending on how long your project will be, each section may either be a single paragraph or a collection 
-						of paragraphs.
-					</p>
-					<p>
-						Next, for each section, write a single sentence that summarizes the main idea of that section or the 
-						question that the section will answer.
-					</p>
-					<p>
-						Finally, under each outline heading, write a summary of the points you want to make in that section, ideas 
-						you want to explore, source material you want to include, or anything else that may help you in writing
-						your first draft.
-					</p>
-					<textarea name="outline" class='form-control editor'>{{project.outline}}</textarea><br>
-					<h4>Sections</h4>
-					<p>
-						Count the number of sections that you have in your outline, and select that number below. Make sure to 
-						include an introduction and conclusion if you need them. 
-					</p>
-					<label for="select-sections">New Number of Sections: (Currently {{project.num_sections}})</label>
-					<select name="num_sections" id="select-sections" class="form-control">
-						{% for n in range(1, max_sections+1) %}
+						<textarea class="form-control editor" name="freewrite"
+							rows=20>{{ project.freewrite }}</textarea> <br>
+					</div>
+
+
+
+					<div class="form-group">
+						<h4 id='thesis'>Thesis</h4>
+						<p>
+							Now that you have an idea of what you're going to write about, write at least one sentence
+							that
+							answers the question you came up with earlier. You can think of this as your thesis, or
+							"main idea."
+						</p>
+						<textarea name='thesis' class='form-control'>{{ project.thesis }}</textarea><br>
+						<h4 id='sections'>Outline</h4>
+						<p>
+							It's time to write your outline. First, divide your project into sections. Each section
+							should explore a
+							single idea, and your sections should be ordered logically so that they develop your thesis.
+							Depending on how long your project will be, each section may either be a single paragraph or
+							a collection
+							of paragraphs.
+						</p>
+						<p>
+							Next, for each section, write a single sentence that summarizes the main idea of that
+							section or the
+							question that the section will answer.
+						</p>
+						<p>
+							Finally, under each outline heading, write a summary of the points you want to make in that
+							section, ideas
+							you want to explore, source material you want to include, or anything else that may help you
+							in writing
+							your first draft.
+						</p>
+						<textarea name="outline" class='form-control editor'>{{project.outline}}</textarea><br>
+						<h4>Sections</h4>
+						<p>
+							Count the number of sections that you have in your outline, and select that number below.
+							Make sure to
+							include an introduction and conclusion if you need them.
+						</p>
+						<label for="select-sections">New Number of Sections: (Currently
+							{{project.num_sections}})</label>
+						<select name="num_sections" id="select-sections" class="form-control">
+							{% for n in range(1, max_sections+1) %}
 							<option value="{{n}}">{{n}}</option>
-						{% endfor %}
-					</select>
-					<p>
-						<strong>
-							Warning: if you decrease the amount of sections from the current number, 
-							all of the excess sections will be deleted and your work in those sections will be lost.
-						</strong>
-                    </p>
-                    {{ form.submit(class='btn btn-primary')}}
-                  </div>
-            </form>
-            </div>
-        </div>
-        <div class='col-sm'></div>
-    </div>
+							{% endfor %}
+						</select>
+						<p>
+							<strong>
+								Warning: if you decrease the amount of sections from the current number,
+								all of the excess sections will be deleted and your work in those sections will be lost.
+							</strong>
+						</p>
+						{{ form.submit(class='btn btn-primary')}}
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class='col-sm'></div>
+	</div>
 </div>
 <div style='height:200px'></div>
 
 <script type='text/javascript'>
-    $("input").change(function(){
-        $( '#counter' ).text('New Number of Sections: ' + this.value)
-}); 
-	if ({{project.num_sections}}==0) {
+	$("input").change(function () {
+		$('#counter').text('New Number of Sections: ' + this.value)
+	});
+	if ({{ project.num_sections }}== 0) {
 		console.log('bitch')
 		$('#select-sections').val(1);
 	} else {
-		$('#select-sections').val({{project.num_sections}});
+		$('#select-sections').val({{ project.num_sections }});
 	}
-	
+
 </script>
 {% endblock %}

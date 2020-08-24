@@ -7,55 +7,60 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
-    <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ url_for('project.draft_editor', proj_id=project.id) }}">Draft Editor</a></li>
+    <li class="breadcrumb-item"><a
+        href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('project.draft_editor', proj_id=project.id) }}">Draft Editor</a>
+    </li>
     <li class="breadcrumb-item active" aria-current='page'>Line Editor</li>
   </ol>
 </nav>
 <div class='container mt-5'>
-    <div class='row'>
-        <div class='col-sm'></div>
-        <div class='col-sm-8'>  
-          <div class="title-content mb-4"><h2 class='heading'>{{ project.title }}: Section {{section.order}} Line Editor</h2></div>
-          <hr>
-          <div class='title-content mb-4'>
-          <h4>
-            Instructions
-          </h4>
-          <p>
-            The line editor allows you to improve each sentence in your project individually. This feature
-            should be used when the content of your project is nearly finished, and your main focus is to improve your 
-            style or grammar. Try and make each sentence better by cutting out unnecessary information, by making your writing 
-            more consise, or by picking better words. You should repeat this process until it's not obvious to you whether
-            the changes you're making are improving your writing anymore.
-          </p>
-          <p>
-            Note: Saving from the line editor will remove all formatting from your section (bold, italics, bullets, etc.).
-            If you wish to add formatting after using this feature, use the full text editor in the draft
-            editor.
-          </p>
-          </div>
-          <form action='' method='post'>
-            {{ form.hidden_tag() }}
-            {{ form.csrf_token }}
-            <div class="form-group">
-              {{ form.title.label }}
-              {{ form.title(value=section.title, class='form-control')}}
-            </div>
-            <hr>
-            {% for sentence, field in combo %}
-                <div class='form-group'>
-                    <textarea class='form-control sentence-editor' name='{{field.name}}' rows='5'>{{sentence|safe}}</textarea>
-                    <div class='mb-1'></div>
-                </div>
-            {% endfor %}
-            <div class='form-group'>
-                {{ form.submit(class='btn btn-primary mb-5') }}
-            </div>
-          </form>
+  <div class='row'>
+    <div class='col-sm'></div>
+    <div class='col-sm-8'>
+      <div class="title-content mb-4">
+        <h2 class='heading'>{{ project.title }}: Section {{section.order}} Line Editor</h2>
+      </div>
+      <hr>
+      <div class='title-content mb-4'>
+        <h4>
+          Instructions
+        </h4>
+        <p>
+          The line editor allows you to improve each sentence in your project individually. This feature
+          should be used when the content of your project is nearly finished, and your main focus is to improve your
+          style or grammar. Try and make each sentence better by cutting out unnecessary information, by making your
+          writing
+          more consise, or by picking better words. You should repeat this process until it's not obvious to you whether
+          the changes you're making are improving your writing anymore.
+        </p>
+        <p>
+          Note: Saving from the line editor will remove all formatting from your section (bold, italics, bullets, etc.).
+          If you wish to add formatting after using this feature, use the full text editor in the draft
+          editor.
+        </p>
+      </div>
+      <form action='' method='post'>
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+        <div class="form-group">
+          {{ form.title.label }}
+          {{ form.title(value=section.title, class='form-control')}}
         </div>
-      
-        <div class='col-sm'></div>
+        <hr>
+        {% for sentence, field in combo %}
+        <div class='form-group'>
+          <textarea class='form-control sentence-editor' name='{{field.name}}' rows='5'>{{sentence|safe}}</textarea>
+          <div class='mb-1'></div>
+        </div>
+        {% endfor %}
+        <div class='form-group'>
+          {{ form.submit(class='btn btn-primary mb-5') }}
+        </div>
+      </form>
     </div>
-</div>  
+
+    <div class='col-sm'></div>
+  </div>
+</div>
 {% endblock %}
