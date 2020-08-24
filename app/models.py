@@ -53,6 +53,7 @@ class Section(db.Model):
 	parent_type = db.Column(db.String)
 	order = db.Column(db.Integer)
 	heading = db.Column(db.Text, default='')
+	title = db.Column(db.Text, default='')
 	text = db.Column(db.Text, default='')
 
 	def __repr__(self):

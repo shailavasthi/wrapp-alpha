@@ -106,6 +106,7 @@ def outline(proj_id):
 					project_id=project.id,
 					parent_type="draft",
 					order=sections.count()+1,
+					title='Section ' + str(sections.count()+1)
 				)
 				db.session.add(section)
 				i += 1
@@ -178,6 +179,28 @@ def draft_editor(proj_id):
 
 	return render_template('project/draft_editor.html', title='Draft Editor', project=project, sections=sections)
 
+@project.route('new_section/<proj_id>', methods=['GET', 'POST'])
+@login_required
+def new_section(proj_id):
+	project = Project.query.get(int(proj_id))
+	if current_user.id != project.user_id:
+		return redirect(url_for('project.dashboard'))
+	
+	if project.sections.count() <= 15:
+		new_section_order = Section.query.filter_by(project_id=project.id).order_by(Section.order.desc()).first().order + 1
+		section = Section(
+			project_id=project.id,
+			order=new_section_order,
+			title='Section ' + str(new_section_order)
+		)
+		db.session.add(section)
+		db.session.commit()
+		return redirect(url_for('project.draft_editor', proj_id=project.id))
+	else:
+		flash('Maximum number of sections reached', 'info')
+		return redirect(url_for('project.draft_editor', proj_id=project.id))
+
+
 @project.route('/line_editor/<proj_id>/<section_id>', methods=['GET', 'POST'])
 @login_required
 def line_editor(proj_id, section_id):
@@ -214,6 +237,7 @@ def line_editor(proj_id, section_id):
 			if sentence.data is not None:
 				compiled += sentence.data + ' '
 			section.text = compiled
+			section.title = form.title.data
 			db.session.commit()
 
 		return redirect(url_for('project.draft_editor', proj_id=project.id))
@@ -241,6 +265,7 @@ def section_text_editor(proj_id, section_id):
 
 	if form.validate_on_submit():
 		project.last_edit = datetime.utcnow()
+		section.title = form.title.data
 		section.text = form.text.data
 		db.session.commit()
 		flash('Section Saved', 'success')
@@ -355,12 +380,14 @@ def statistics(proj_id):
 def delete(type, id):
 	if type == 'project':
 		project = Project.query.filter_by(id=id).first()
+		next_page = url_for('project.dashboard')
 		if current_user.id != project.user_id:
 			return redirect(url_for('project.dashboard'))
 		item = Project.query.get(int(id))
 	elif type == 'section':
 		section = Section.query.get(int(id))
-		if current_user.id != section.user_id:
+		next_page = url_for('project.draft_editor', proj_id=section.project.id)
+		if current_user.id != section.project.user_id:
 			return redirect(url_for('project.dashboard'))
 		item = section
 	else:
@@ -373,7 +400,7 @@ def delete(type, id):
 			db.session.delete(item)
 			db.session.commit()
 			flash('Deleted Successfully', 'info')
-			return redirect(url_for('project.dashboard'))
+			return redirect(next_page)
 
 		else:
 			flash('Password Incorrect', 'danger')

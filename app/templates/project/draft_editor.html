@@ -30,7 +30,7 @@
             
           {% for section in sections %}
           <div class="title-content mb-4">
-            <h4>Section {{section.order}}</h4>
+            <h4>{{ section.title }}</h4>
             <p>{{ section.text|safe }}</p>
             {% if section.text == '' %}<p>You haven't written anything in this section yet.</p>{% endif %}
             <div class="dropdown">
@@ -40,11 +40,15 @@
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{{ url_for('project.section_text_editor', proj_id=project.id, section_id=section.id) }}">Full Text Editor</a>
                 <a class="dropdown-item" href="{{ url_for('project.line_editor', proj_id=project.id, section_id=section.id) }}">Line Editor</a>
-                <a class="dropdown-item" href="#">Delete Section (coming soon)</a>
+                <a class="dropdown-item" href="{{ url_for('project.delete', type='section', id=section.id) }}">Delete Section</a>
               </div>
             </div><br>
           </div>
           {% endfor %}  
+          <div class="title-content mb-4">
+            <h4>Create a New Section</h4>
+            <a href="{{ url_for('project.new_section', proj_id=project.id) }}" class="btn btn-primary mb-2 mt-2">Create Section</a>
+          </div>
         </div>
         <div class='col-sm'></div>
     </div>
