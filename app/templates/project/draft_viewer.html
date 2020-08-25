@@ -23,6 +23,7 @@
           {{ moment(project.last_edit).format('MMMM Do, YYYY') }}</p>
 
         {% for section in sections %}
+        <h4>{{ section.title|safe }}</h4>
         <p>{{ section.text|safe }}</p>
         {% endfor %}
       </div>
