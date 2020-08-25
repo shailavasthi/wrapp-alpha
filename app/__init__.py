@@ -9,8 +9,7 @@ from flask_admin.contrib.sqla import ModelView
 
 class MyAdminIndexView(AdminIndexView):
 		def is_accessible(self):
-			#return current_user.is_authenticated and current_user.role == 'admin'
-			return current_user.is_authenticated
+			return current_user.is_authenticated and current_user.role == 'admin'
 
 		def inaccessible_callback(self, name, **kwargs):
 			# redirect to login page if user doesn't have access
@@ -18,8 +17,7 @@ class MyAdminIndexView(AdminIndexView):
 
 class UserModelView(ModelView):
 	def is_accessible(self):
-		#return current_user.role == 'admin'
-		return current_user.is_authenticated
+		return current_user.role == 'admin'
 
 	def inaccessible_callback(self, name, **kwargs):
 		# redirect to login page if user doesn't have access
