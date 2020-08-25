@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class='jumbotron'>
+	<div class='container'>
+		<h1 class='display-4'>STOP! You've violated the law!</h1>
+        <p class='lead'>Not really. You don't have access to that.</p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/My0lzMuNcHI?controls=0&amp;start=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <br>
+        <a class="btn btn-primary btn-lg " href="{{ url_for('home.home') }}" role="button">Follow Me &raquo;</a>
+	</div>
+</div>
+
+
+{% endblock %}

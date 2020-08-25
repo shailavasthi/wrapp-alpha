@@ -11,3 +11,7 @@ def not_found_error(error):
 def internal_error(error):
 	db.session.rollback()
 	return render_template('error/500.html', title='500'), 500
+
+@error.route('/nice_try')
+def nice_try():
+	return render_template('error/nice_try.html', title='Nice Try')
