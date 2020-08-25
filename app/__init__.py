@@ -4,6 +4,8 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 
 db = SQLAlchemy()
@@ -13,6 +15,7 @@ login.login_view = 'auth.login'
 login.login_message = 'Please log in to access this page.'
 bootstrap = Bootstrap()
 moment = Moment()
+admin = Admin()
 max_sections = 15
 
 def create_app():
@@ -20,7 +23,12 @@ def create_app():
 	app.config.from_object('config.Config')
 	app.static_folder = 'static'
 
+	#admin
 	from app import models
+	from .models import User, Section
+	from .models import Project
+	admin.init_app(app)
+	admin.add_view(ModelView(User, db.session))
 
 	from .home import home as home_bp
 	app.register_blueprint(home_bp)
