@@ -2,14 +2,12 @@ from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash
-
 from wtforms.fields import Label
-
 from app.models import User, Project
 from app import db
-
 from . import auth
-from .forms import LoginForm, RegistrationForm, EditInfoForm, DeleteAccountForm, EditEmailForm, EditPasswordForm
+from .forms import LoginForm, RegistrationForm, EditInfoForm, DeleteAccountForm, EditEmailForm, EditPasswordForm, ResetPasswordRequestForm, ResetPasswordForm
+from app.email import send_password_reset_email
 
 @auth.route('/login', methods=['GET','POST'])
 def login():
@@ -39,9 +37,9 @@ def login():
 
 @auth.route('/logout')
 def logout():
-    logout_user()
-    flash('You are now logged out.', 'info')
-    return redirect(url_for('home.home'))
+	logout_user()
+	flash('You are now logged out.', 'info')
+	return redirect(url_for('home.home'))
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -133,3 +131,31 @@ def delete_account():
 
 	return render_template('auth/delete_account.html', title='Delete Account', user=current_user, form=form)
 
+@auth.route('/reset_password_request', methods=['GET', 'POST'])
+def reset_password_request():
+	if current_user.is_authenticated:
+		return redirect(url_for('home.home'))
+	form = ResetPasswordRequestForm()
+	if form.validate_on_submit():
+		user = User.query.filter_by(email=form.email.data).first()
+		if user:
+			send_password_reset_email(user)
+		flash('Check your email for the instructions to reset your password. Check your spam folder if the email is missing.', 'info')
+		return redirect(url_for('auth.login'))
+	return render_template('auth/reset_password_request.html',
+						   title='Reset Password', form=form)
+
+@auth.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('home.home'))
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for('home.home'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        flash('Your password has been reset.', 'success')
+        return redirect(url_for('auth.login'))
+    return render_template('auth/reset_password.html', form=form)

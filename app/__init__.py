@@ -4,8 +4,11 @@ from flask_migrate import Migrate
 from flask_login import LoginManager, current_user
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_mail import Mail
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
+import os
+
 
 class MyAdminIndexView(AdminIndexView):
 		def is_accessible(self):
@@ -30,6 +33,8 @@ login.login_view = 'auth.login'
 login.login_message = 'Please log in to access this page.'
 bootstrap = Bootstrap()
 moment = Moment()
+mail= Mail()
+
 admin = Admin(index_view=MyAdminIndexView())
 max_sections = 15
 
@@ -38,13 +43,14 @@ def create_app():
 	app.config.from_object('config.Config')
 	app.static_folder = 'static'
 
-	#admin
+	# admin
 	from app import models
 	from .models import User, Section
 	from .models import Project
 	admin.init_app(app)
-	admin.add_view(UserModelView(User, db.session))
+	#admin.add_view(UserModelView(User, db.session))
 
+	# blueprints
 	from .home import home as home_bp
 	app.register_blueprint(home_bp)
 
@@ -57,12 +63,27 @@ def create_app():
 	from .project import project as project_bp
 	app.register_blueprint(project_bp, url_prefix='/project')
 
+	app.config.update(dict(
+		DEBUG = True,
+		MAIL_SERVER = 'smtp.gmail.com',
+		MAIL_PORT = 465,
+		MAIL_USE_TLS = False,
+		MAIL_USE_SSL = True,
+		MAIL_USERNAME = os.environ.get('MAIL_USERNAME'),
+		MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD'),
+	))
+
+	# extensions
 	db.init_app(app)
 	migrate.init_app(app, db)
 	login.init_app(app)
 	bootstrap.init_app(app)
 	moment.init_app(app)
+	mail.init_app(app)
 
+	
+
+	# logging
 	if not app.debug and not app.testing:
 		if app.config['LOG_TO_STDOUT']:
 			stream_handler = logging.StreamHandler()
