@@ -17,13 +17,21 @@
       <hr>
       {% for project in projects %}
       <div class="card card-border">
-        <div class="card-header">
-          
+        <div class="card-header text-muted">
+          Status: In Progress
         </div>
         <div class="card-body">
+          
           <h4 class="card-title">{{ project.title }}</h4>
-          <p class="card-text">Last Edit: {{ moment(project.last_edit).calendar() }} | Created:
-            {{ moment(project.timestamp).fromNow() }}</p>
+          
+          <p class="card-text">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="icon bi bi-calendar3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+              <path fill-rule="evenodd" d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+            </svg>
+            Last Edit: {{ moment(project.last_edit).calendar() }} | Created:
+            {{ moment(project.timestamp).fromNow() }}
+          </p>
           <a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}" class="btn btn-primary">
             Open Project
           </a>
@@ -36,7 +44,7 @@
         </div>
         <div class="card-body">
           <h4 class="card-title">Create a New Project</h4>
-          <p class="card-text">Start a new work in progress below.</p>
+          <p class="card-text">Start a new work in progress.</p>
           <a href="{{ url_for('project.new_project') }}" class="btn btn-primary">
             New Project
           </a>
