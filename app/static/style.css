@@ -34,3 +34,9 @@
 #right-button {
     margin-left: 20px;
 }
+
+.icon {
+    position: relative;
+    bottom: 1.2px
+
+}
