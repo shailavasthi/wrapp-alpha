@@ -18,7 +18,7 @@ def send_email(subject, sender, recipients, text_body, html_body):
 
 def send_password_reset_email(user):
 	token = user.get_reset_password_token()
-	send_email('[Wriit] Reset Your Password',
+	send_email('[Wriitr] Reset Your Password',
 			   sender='wrapp.admn@gmail.com',
 			   recipients=[user.email],
 			   text_body=render_template('email/reset_password.txt',
@@ -27,7 +27,7 @@ def send_password_reset_email(user):
 										 user=user, token=token))
 
 def export_draft_email(user, title, sections):
-	send_email('[Wriit] Draft Export: {}'.format(title),
+	send_email('[Wriitr] Draft Export: {}'.format(title),
 			   sender='wrapp.admn@gmail.com',
 			   recipients=[user.email],
 			   text_body=render_template('project/export_draft.txt',
