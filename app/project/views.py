@@ -6,6 +6,7 @@ from app.models import User, Project, Section
 from wtforms import TextAreaField, StringField
 from app import db, max_sections
 from datetime import datetime
+from app.email import export_draft_email
 
 # for nlp
 import spacy
@@ -287,6 +288,19 @@ def draft_viewer(proj_id):
 	sections = Section.query.filter_by(project_id=project.id).order_by(Section.order).all()
 
 	return render_template('project/draft_viewer.html', project=project, sections=sections)
+
+@project.route('/export_draft/<proj_id>')
+@login_required
+def export_draft(proj_id):
+	project = Project.query.get(int(proj_id))
+	if current_user.id != project.user_id:
+		return redirect(url_for('project.dashboard'))
+	sections = Section.query.filter_by(project_id=project.id).order_by(Section.order).all()
+	export_draft_email(current_user, project.title, sections)
+	flash('Your draft was sent to your email. Check your spam folder if it is missing.', 'info')
+	return redirect(url_for('project.draft_editor', proj_id=project.id))
+
+
 	
 @project.route('/statistics/<proj_id>')
 @login_required

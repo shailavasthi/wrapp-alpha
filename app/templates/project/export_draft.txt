@@ -1,0 +1,5 @@
+{{ title }}
+{% for section in sections %}
+{{ section.title|safe }}
+{{ section.text|safe }}
+{% endfor %}

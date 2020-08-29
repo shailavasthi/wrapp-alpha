@@ -1,0 +1,5 @@
+<h1>{{ title }}</h1>
+{% for section in sections %}
+<h4>{{ section.title|safe }}</h4> 
+<p>{{ section.text|safe }}</p>
+{% endfor %}
