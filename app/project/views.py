@@ -178,6 +178,7 @@ def draft_editor(proj_id):
 		return redirect(url_for('project.dashboard'))
 	sections = Section.query.filter_by(project_id=project.id).order_by(Section.order).all()
 
+
 	return render_template('project/draft_editor.html', title='Draft Editor', project=project, sections=sections)
 
 @project.route('new_section/<proj_id>', methods=['GET', 'POST'])
@@ -299,7 +300,6 @@ def export_draft(proj_id):
 	export_draft_email(current_user, project.title, sections)
 	flash('Your draft was sent to your email. Check your spam folder if it is missing.', 'info')
 	return redirect(url_for('project.draft_editor', proj_id=project.id))
-
 
 	
 @project.route('/statistics/<proj_id>')

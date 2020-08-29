@@ -17,20 +17,29 @@
       <hr>
       {% for project in projects %}
       <div class="card card-border">
+        <div class="card-header">
+          
+        </div>
         <div class="card-body">
-          <h5 class="card-title">{{ project.title }}</h5>
+          <h4 class="card-title">{{ project.title }}</h4>
           <p class="card-text">Last Edit: {{ moment(project.last_edit).calendar() }} | Created:
             {{ moment(project.timestamp).fromNow() }}</p>
-          <a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}" class="btn btn-primary">Open Project
-            &raquo</a>
+          <a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}" class="btn btn-primary">
+            Open Project
+          </a>
         </div>
       </div>
       {% endfor %}
       <div class="card card-border">
+        <div class="card-header">
+          
+        </div>
         <div class="card-body">
-          <h5 class="card-title">Create a New Project</h5>
+          <h4 class="card-title">Create a New Project</h4>
           <p class="card-text">Start a new work in progress below.</p>
-          <a href="{{ url_for('project.new_project') }}" class="btn btn-primary">New Project &raquo</a>
+          <a href="{{ url_for('project.new_project') }}" class="btn btn-primary">
+            New Project
+          </a>
         </div>
       </div>
     </div>
