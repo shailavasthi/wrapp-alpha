@@ -25,6 +25,7 @@ class UserModelView(ModelView):
 	def inaccessible_callback(self, name, **kwargs):
 		# redirect to login page if user doesn't have access
 		return redirect(url_for('error.nice_try'))
+	
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -34,8 +35,8 @@ login.login_message = 'Please log in to access this page.'
 bootstrap = Bootstrap()
 moment = Moment()
 mail= Mail()
+admin = Admin(index_view=MyAdminIndexView(), name='wriitr', template_mode='bootstrap3')
 
-admin = Admin(index_view=MyAdminIndexView())
 max_sections = 15
 
 def create_app():
@@ -49,6 +50,7 @@ def create_app():
 	from .models import Project
 	admin.init_app(app)
 	#admin.add_view(UserModelView(User, db.session))
+	#admin.add_view(UserModelView(Project, db.session))
 
 	# blueprints
 	from .home import home as home_bp
